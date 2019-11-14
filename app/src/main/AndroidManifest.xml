@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.amazebylaurenberry">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/AndroidManifest" />
+
+        <activity android:name=".AMazeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".GeneratingActivity"
+            android:parentActivityName="edu.wm.cs.cs301.amazebylaurenberry.AMazeActivity" />
+        <activity android:name=".LosingActivity"
+            android:parentActivityName="edu.wm.cs.cs301.amazebylaurenberry.AMazeActivity"/>
+        <activity android:name=".PlayAnimationActivity"
+            android:parentActivityName="edu.wm.cs.cs301.amazebylaurenberry.AMazeActivity"/>
+        <activity android:name=".PlayManuallyActivity"
+            android:parentActivityName="edu.wm.cs.cs301.amazebylaurenberry.AMazeActivity"/>
+        <activity android:name=".WinningActivity"
+            android:parentActivityName="edu.wm.cs.cs301.amazebylaurenberry.AMazeActivity">
+
+        </activity>
+
+    </application>
+
+</manifest>
