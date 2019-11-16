@@ -1,3 +1,36 @@
 <resources>
     <string name="app_name">AMazeByLaurenBerry</string>
+    <string name="button_send">Explore</string>
+    <string name="selected_skill">Skill level: </string>
+    <string name="revist_button">Revist</string>
+    <string name="select_algorithm">Choose generation algorithm:  </string>
+    <string name="select_driver">Choose driver:  </string>
+    <string name="showMap">Show Local Map</string>
+    <string name="hideMap">Hide Local Map</string>
+    <string name="showSolution">Show Solution</string>
+    <string name="hideSolution">Hide Solution</string>
+    <string name="showWalls">Show Full Map</string>
+    <string name="hideWalls">Hide Full Map</string>
+    <string name="go2winning">Go to Winning</string>
+    <string name="go2losing">Go to Losing</string>
+    <string name="winningScreen">You Won!</string>
+    <string name="energyConsumed">Energy Consumed:</string>
+    <string name="shortestPossiblePathLength">Shortest possible path length:</string>
+    <string name="lengthOfYourPath">Length of your path:</string>
+    <string name="winningRestartInstructions">Click Back Button to Restart</string>
+    <string name="outOfEnergy">You lost!!</string>
+    <string name="remainingBattery">Remaining Battery:</string>
+
+
+    <string-array name="algorithms_array">
+        <item>DFS</item>
+        <item>Prim</item>
+        <item>Eller</item>
+    </string-array>
+
+    <string-array name="drivers_array">
+        <item>Manual</item>
+        <item>Wizard</item>
+        <item>WallFollower</item>
+    </string-array>
 </resources>

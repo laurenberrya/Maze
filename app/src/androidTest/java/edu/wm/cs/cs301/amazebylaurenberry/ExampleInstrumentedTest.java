@@ -1,4 +1,4 @@
-package com.example.amazebylaurenberry;
+package edu.wm.cs.cs301.amazebylaurenberry;
 
 import android.content.Context;
 
