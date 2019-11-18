@@ -5,21 +5,23 @@
     <string name="revist_button">Revist</string>
     <string name="select_algorithm">Choose generation algorithm:  </string>
     <string name="select_driver">Choose driver:  </string>
-    <string name="showMap">Show Local Map</string>
-    <string name="hideMap">Hide Local Map</string>
+    <string name="showMap">Show Whole Maze</string>
+    <string name="hideMap">Hide Whole maze</string>
     <string name="showSolution">Show Solution</string>
     <string name="hideSolution">Hide Solution</string>
-    <string name="showWalls">Show Full Map</string>
-    <string name="hideWalls">Hide Full Map</string>
+    <string name="showWalls">Show Walls</string>
+    <string name="hideWalls">Hide Walls</string>
     <string name="go2winning">Go to Winning</string>
     <string name="go2losing">Go to Losing</string>
-    <string name="winningScreen">You Won!</string>
-    <string name="energyConsumed">Energy Consumed:</string>
+    <string name="winningScreen">You Won:)</string>
+    <string name="energyConsumed">Energy Consumption:</string>
     <string name="shortestPossiblePathLength">Shortest possible path length:</string>
-    <string name="lengthOfYourPath">Length of your path:</string>
+    <string name="lengthOfYourPath">Length of path taken:</string>
     <string name="winningRestartInstructions">Click Back Button to Restart</string>
-    <string name="outOfEnergy">You lost!!</string>
+    <string name="outOfEnergy">You lost:(</string>
     <string name="remainingBattery">Remaining Battery:</string>
+    <string name="incrementButton">Increment</string>
+    <string name="decrementButton">Decrement</string>
 
 
     <string-array name="algorithms_array">

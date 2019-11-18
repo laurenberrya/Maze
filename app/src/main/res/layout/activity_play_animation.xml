@@ -1,10 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.wm.cs.cs301.amazebylaurenberry.PlayAnimationActivity">
+
+
+    <ToggleButton
+        android:id="@+id/toggleMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginBottom="52dp"
+        android:text="ToggleButton"
+        android:textOff="@string/showMap"
+        android:textOn="@string/hideMap"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/toggleSolution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:text="ToggleButton"
+        android:textOff="@string/showSolution"
+        android:textOn="@string/hideSolution"
+        app:layout_constraintBottom_toBottomOf="@+id/toggleMap"
+        app:layout_constraintStart_toEndOf="@+id/toggleMap"
+        app:layout_constraintTop_toTopOf="@+id/toggleMap" />
+
+    <ToggleButton
+        android:id="@+id/toggleWalls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:text="ToggleButton"
+        android:textOff="@string/showWalls"
+        android:textOn="@string/hideWalls"
+        app:layout_constraintBottom_toBottomOf="@+id/toggleSolution"
+        app:layout_constraintStart_toEndOf="@+id/toggleSolution"
+        app:layout_constraintTop_toTopOf="@+id/toggleSolution"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/incrementButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
+        android:onClick="onClick"
+        android:scaleType="fitXY"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/startButton"
+        app:layout_constraintEnd_toStartOf="@+id/decrementButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toggleMap"
+        app:srcCompat="@drawable/incrementicon"/>
+
+    <ImageButton
+        android:id="@+id/decrementButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:onClick="onClick"
+        android:scaleType="fitXY"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/incrementButton"
+        app:layout_constraintTop_toBottomOf="@+id/toggleWalls"
+        app:srcCompat="@drawable/decrementicon" />
+
+    <ImageButton
+        android:id="@+id/startButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginRight="160dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="onClick"
+        android:scaleType="fitXY"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/toggleSolution"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/playicon" />
+
+    <ImageButton
+        android:id="@+id/pauseButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="onClick"
+        android:scaleType="fitXY"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/toggleSolution"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.37"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/pauseicon" />
+
+    <TextView
+        android:id="@+id/remainingBattery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="remaining battery"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/pauseButton"
+        app:layout_constraintEnd_toEndOf="@+id/pauseButton"
+        app:layout_constraintStart_toStartOf="@+id/pauseButton" />
+
+    <TextView
+        android:id="@+id/playScreen"
+        android:layout_width="248dp"
+        android:layout_height="250dp"
+        android:layout_marginBottom="36dp"
+        android:text="Maze displayed here"
+        app:layout_constraintBottom_toBottomOf="@+id/remainingBattery"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

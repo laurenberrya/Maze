@@ -6,4 +6,61 @@
     android:layout_height="match_parent"
     tools:context=".LosingActivity">
 
+    <TextView
+        android:id="@+id/outOfEnergy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:text="@string/outOfEnergy"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/instructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/winningRestartInstructions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/outOfEnergy" />
+
+    <TextView
+        android:id="@+id/energyConsumption"
+        android:layout_width="250dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="96dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/instructions" />
+
+    <TextView
+        android:id="@+id/shortestPath"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/energyConsumption"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/energyConsumption"
+        app:layout_constraintTop_toBottomOf="@+id/energyConsumption" />
+
+    <TextView
+        android:id="@+id/actualPath"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/shortestPath"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/shortestPath"
+        app:layout_constraintTop_toBottomOf="@+id/shortestPath" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
