@@ -18,13 +18,14 @@ import java.util.Random;
 
 /**
  * Class: AMazeActivity
- * <p>
- * Responsibilities: Main title screen of the MazeApplication, displayed on startup. Allows
- * the user to select a maze generation algorithm, a driver, and a skill level. Also allows the user
- * to generate a new maze or load an old one
- * <p>
- * Collaborators: activity_amaze.xml describes the layout of this screen, strings used for the text is
- * stored in strings.xml. Will interact with StateTitle along with main class from project 6
+ *
+ * Responsibilities: Main (intro) screen for the app that is displayed upon startup. Allows
+ * the user to select a maze generation algorithm, driver, and skill level for the maze. It
+ * also allows the user to generate a new maze with the explore button or load an old maze with
+ * the revist button.
+ *
+ * Collaborators: activity_main.xml is the layout for this screen, and strings used on the layout
+ * are stored in strings.xml.
  */
 
 public class AMazeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -44,14 +45,13 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
 
 
     /**
-     * Instantiates UI elements and retrieves intent information from previous state
+     * Creates UI elements and gets intent info from the previous state
      *
      * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        //SeedHolder.initSeeds();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -61,40 +61,29 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
         changingText.setText("Select Skill Level: ");
         skillLevelSeekBar(skillLevelSeekBar, changingText);
 
-
-        /*
-        creates a new spinner (dropdown menu) for the maze generation algorithm to
-        be selected. Had to change class declaration to implement OnItemSelectedListener
-        the method onItemSelected listens to user input for these
-         */
+        //creates a spinner w an adapter for the user to choose a maze gen algorithm from
         Spinner algorithmsSpinner = findViewById(R.id.algorithmSpinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
                 R.array.algorithms_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         algorithmsSpinner.setAdapter(adapter1);
         algorithmsSpinner.setOnItemSelectedListener(this);
 
-
-        /*
-        creates a spinner for the user to select a driver for the maze
-         */
+        //creates a spinner w an adapter for the user to choose a driver from the maze
         driversSpinner = findViewById(R.id.driversSpinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
                 R.array.drivers_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         driversSpinner.setAdapter(adapter2);
         driversSpinner.setOnItemSelectedListener(this);
-
     }
 
+
     /**
-     * when the revisit button is selected, load old maze from file
+     * Method that loads an old maze when the revisit button is pressed. Relies on hashmaps that store
+     * old level, driver, and algorithm location. Calls the helper method storeMaze if there hasn't been
+     * a maze already played at that level. Idea for project 7 is to further reload using the seed,
+     * but that info isn't available without importing the whole java maze proj.
      *
      * @param view
      */
@@ -112,7 +101,6 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
             storeMaze(selectedLevel, selectedDriver, selectedAlgorithm);
         }
 
-
         intent.putExtra("selectedAlgorithm", selectedAlgorithm);
         intent.putExtra("selectedDriver", selectedDriver);
         intent.putExtra("selectedLevel", selectedLevel);
@@ -120,10 +108,16 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
 
+    /**
+     * Helper method called in revistOldMaze. Stores the current maze details in hashmaps at the same
+     * value to be later accessed if needed.
+     *
+     * @param level
+     * @param driver
+     * @param alg
+     */
     public void storeMaze(String level, String driver, String alg) {
-
         Random rand = new Random();
-
         hashLoc = rand.nextInt(100);
 
         Log.v(TAG, "put level, driver, and alg in hash map at location: " + Integer.toString(hashLoc));
@@ -134,9 +128,8 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
 
 
     /**
-     * when the generate new maze button is clicked, this method is called
-     * displays toast message that a new maze will be generated. Sets parameters of user selections
-     * to be sent to the next state
+     * This method is called when the explore button is pressed. It displays a toast that the maze is
+     * generating and then calls GeneratingActivity.
      *
      * @param view
      */
@@ -152,35 +145,29 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
         intent.putExtra("selectedLevel", selectedLevel);
 
         startActivity(intent);
-
     }
 
     /**
-     * This method listens to user interaction with the skill level seek bar
-     * everytime the user moves the bar, the selected skill level text above the bar
-     * updates. and whenver the user lets go of the bar a toast message displays
-     * the selected level
+     * This method changes the textView display of the selected skill level based on the user's
+     * movement of the little circle on the seekBar. A toast is displayed giving the selected
+     * level when the user lets go of the bar.
      *
-     * @param seekBar      seek bar object created in on creation method.
-     * @param changingText text that show above the seek bar (selected level), changes whenever bar is moved
+     * @param seekBar      seek bar object initiated in onCreate method
+     * @param changingText text shown above the seek bar displaying the selected level
      */
     private void skillLevelSeekBar(SeekBar seekBar, final TextView changingText) {
         if (seekBar != null) {
             seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    // Write code to perform some action when progress is changed.
                     changingText.setText("Skill Level: " + Integer.toString(seekBar.getProgress()));
                 }
-
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
-                    // Write code to perform some action when touch is started.
+                    //nothing here
                 }
-
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
-                    // Write code to perform some action when touch is stopped.
                     selectedLevel = Integer.toString(seekBar.getProgress());
                     Toast.makeText(AMazeActivity.this, "Current skill is " + seekBar.getProgress(), Toast.LENGTH_SHORT).show();
                     Log.v(TAG, "Current Skill is: " + Integer.toString(seekBar.getProgress()));
@@ -189,9 +176,10 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
         }
     }
 
+
     /**
-     * listens to user interaction for the spinners (for both the algorithm generation and
-     * driver spinners). When an option is selected a toast message displays selected option
+     * Takes user input for both algorithm and driver spinners and displays the options the user chose
+     * with a toast.
      *
      * @param parent
      * @param view
@@ -216,6 +204,5 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
     public void onNothingSelected(AdapterView<?> parent) {
         //nothing here
     }
-
 
 }
