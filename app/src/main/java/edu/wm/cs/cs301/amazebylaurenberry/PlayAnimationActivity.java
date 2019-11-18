@@ -5,14 +5,13 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import android.widget.Button;
+import java.util.Random;
 
 public class PlayAnimationActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,7 +39,6 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_animation);
 
-        View view  = inflater.inflate(R.layout.fragment_bk, container, false);
 
         incrementButton = (ImageButton) findViewById(R.id.incrementButton);
         decrementButton = (ImageButton) findViewById(R.id.decrementButton);
@@ -73,33 +71,13 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
         bestPath = 50;
 
 
-        /**
-         * if the driver has won , then the message sent will equal 1 and
-         * we then want to change to the winning screen
-         */
-        aHandler = new Handler(){
-
-            public void handleMessage(Message msg) {
-                /* get the value from the Message */
-                int m1 = msg.arg1;
-                int m2 = msg.arg2;
-                //txt.setText("Generating..."+ Integer.toString(progress) + "%");
-                //progressBar.setProgress(progress);
-
-                if (m1==1){
-                    go2winning();
-                }
-                else if (m1==-1){
-                    go2Losing();
-                }
-                else{
-                    remainingBattery.setText(getString(R.string.remainingBattery)+" "+Integer.toString(m2));
-                }
-
-
-
-            }
-        };
+        int randWin = new Random().nextInt(2);
+        if(randWin ==0){
+            go2Losing();
+        }
+        if(randWin==1){
+            go2winning();
+        }
 
     }
 
@@ -113,7 +91,6 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
         switch (v.getId()) {
             case R.id.toggleMap:
 
-                //state.keyDown(Constants.UserInput.ToggleLocalMap,1);
 
                 if (toggleMap.isChecked()) {
                     toggleMap.setChecked(true);
@@ -131,8 +108,6 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
                 break;
             case R.id.toggleSolution:
 
-               // state.keyDown(Constants.UserInput.ToggleSolution,1);
-
                 if (toggleSolution.isChecked()) {
                     toggleSolution.setChecked(true);
                     Toast.makeText(PlayAnimationActivity.this, "Showing Solution", Toast.LENGTH_LONG).show();
@@ -147,7 +122,6 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
                 break;
             case R.id.toggleWalls:
 
-              //  state.keyDown(Constants.UserInput.ToggleFullMap,1);
 
                 if (toggleWalls.isChecked()) {
                     toggleWalls.setChecked(true);
@@ -162,7 +136,7 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
 
                 break;
 
-            case R.id.button3:
+            case R.id.incrementButton:
 
                // state.keyDown(Constants.UserInput.ZoomIn,1);
 
@@ -170,7 +144,7 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
                 Log.v(TAG,"Increment Size" );
                 break;
 
-            case R.id.button4:
+            case R.id.decrementButton:
 
                // state.keyDown(Constants.UserInput.ZoomOut,1);
 
@@ -207,12 +181,12 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
         // if the map or visited walls is being displayed then we want the zoom buttons to
         //be visible and usable, otherwise we don't want them there to confuse the user
         if (toggleMap.isChecked()||toggleWalls.isChecked()){
-            zoomInButton.setVisibility(View.VISIBLE);
-            zoomOutButton.setVisibility(View.VISIBLE);
+            incrementButton.setVisibility(View.VISIBLE);
+            decrementButton.setVisibility(View.VISIBLE);
         }
         else{
-            zoomInButton.setVisibility(View.INVISIBLE);
-            zoomOutButton.setVisibility(View.INVISIBLE);
+            incrementButton.setVisibility(View.INVISIBLE);
+            decrementButton.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -220,19 +194,28 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
 
 
     /**
-     * simple helper method that transitions the app to the losing screen
+     * Helper method that takes you to losing screen
      */
     private void go2Losing() {
+        //since we haven't incorporated the robot yet
+        battery = 3000;
+        pathTaken = 100;
+
         Intent intent = new Intent(this, LosingActivity.class);
         intent.putExtra("selectedAlgorithm",selectedAlgorithm);
         intent.putExtra("selectedDriver", selectedDriver);
         intent.putExtra("selectedLevel", selectedLevel);
+
+        intent.putExtra("battery",Float.toString(battery));
+        intent.putExtra("bestPath", Integer.toString(bestPath));
+        intent.putExtra("pathTaken", Integer.toString(pathTaken));
+
         startActivity(intent);
     }
 
 
     /**
-     * simple helper method that transitions the app to the winning screen
+     * Helper method that takes you to winning screen
      */
     private void go2winning(){
 
