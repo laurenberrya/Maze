@@ -62,7 +62,7 @@
         app:layout_constraintEnd_toStartOf="@+id/decrementButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toggleMap"
-        app:srcCompat="@drawable/incrementicon"/>
+        app:srcCompat="@drawable/plus"/>
 
     <ImageButton
         android:id="@+id/decrementButton"
@@ -75,7 +75,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/incrementButton"
         app:layout_constraintTop_toBottomOf="@+id/toggleWalls"
-        app:srcCompat="@drawable/decrementicon" />
+        app:srcCompat="@drawable/minus" />
 
     <ImageButton
         android:id="@+id/startButton"
@@ -93,7 +93,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/playicon" />
+        app:srcCompat="@drawable/play" />
 
     <ImageButton
         android:id="@+id/pauseButton"
@@ -107,7 +107,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.37"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/pauseicon" />
+        app:srcCompat="@drawable/pause" />
 
     <TextView
         android:id="@+id/remainingBattery"

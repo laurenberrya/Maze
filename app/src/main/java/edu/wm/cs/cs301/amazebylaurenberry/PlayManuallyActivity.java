@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.media.Image;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -66,12 +67,25 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         bestPath = 50;
 
 
+
         int randWin = new Random().nextInt(2);
+        Handler handler = new Handler();
         if(randWin ==0){
-            go2Losing();
+
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    go2Losing();
+                }
+            }, 5000);   //5 seconds
+
         }
         if(randWin==1){
-            go2winning();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    go2winning();
+                }
+            }, 5000);   //5 seconds
+
         }
 
     }
@@ -181,7 +195,7 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         battery = 3000;
         pathTaken = 100;
 
-        Intent intent = new Intent(this, LosingActivity.class);
+        final Intent intent = new Intent(this, LosingActivity.class);
         intent.putExtra("selectedAlgorithm",selectedAlgorithm);
         intent.putExtra("selectedDriver", selectedDriver);
         intent.putExtra("selectedLevel", selectedLevel);
@@ -190,7 +204,14 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         intent.putExtra("bestPath", Integer.toString(bestPath));
         intent.putExtra("pathTaken", Integer.toString(pathTaken));
 
-        startActivity(intent);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                startActivity(intent);
+            }
+        }, 5000);   //5 seconds
+
+      //  startActivity(intent);
     }
 
     /**
@@ -203,11 +224,19 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         pathTaken = 100;
 
 
-        Intent intent = new Intent(this, WinningActivity.class);
+        final Intent intent = new Intent(this, WinningActivity.class);
         intent.putExtra("battery",Float.toString(battery));
         intent.putExtra("bestPath", Integer.toString(bestPath));
         intent.putExtra("pathTaken", Integer.toString(pathTaken));
-        startActivity(intent);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                startActivity(intent);
+            }
+        }, 5000);   //5 seconds
+
+
     }
 
 

@@ -44,15 +44,35 @@ public class GeneratingActivity extends AppCompatActivity {
         progressBar.setMax(100);
         progressBar.setVisibility(View.VISIBLE);
 
-        //for now, set incrementally bc maze code not added in this proj
-        progressBar.setProgress(0);
-        txt.setText("Generating: 0%");
-        progressBar.setProgress(50);
-        txt.setText("Generating: 50%");
-        progressBar.setProgress(100);
-        txt.setText("Generating: 100%");
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                //for now, set incrementally bc maze code not added in this proj
+                progressBar.setProgress(0);
+                txt.setText("Generating: 0%");
+            }
+        }, 5000);   //5 seconds
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                progressBar.setProgress(50);
+                txt.setText("Generating: 50%");
+            }
+        }, 5000);   //5 seconds
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                progressBar.setProgress(100);
+                txt.setText("Generating: 100%");
+            }
+        }, 5000);   //5 seconds
 
-        switchToPlaying();
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                switchToPlaying();
+            }
+        }, 5000);   //5 seconds
+
+
 
     }
 
