@@ -85,11 +85,11 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
     }
 
     /**
-     * when the revist button is selected, load old maze from file
+     * when the revisit button is selected, load old maze from file
      *
      * @param view
      */
-    public void revistOldMazeButtonClicked(View view) {
+    public void revisitOldMazeButtonClicked(View view) {
         Intent intent = new Intent(this, GeneratingActivity.class);
 
         if (!SeedHolder.seeds.containsKey("maze" + selectedLevel)) {
@@ -97,7 +97,8 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
             Log.v(TAG, "No saved maze, generating new one");
             intent.putExtra("deterministic", "false");
             SeedHolder.setMaze(selectedLevel);
-        } else {
+        }
+        else {
             Toast.makeText(this, "Revisiting old maze", Toast.LENGTH_SHORT).show();
             Log.v(TAG, "Revisiting old maze");
             intent.putExtra("deterministic", "true");
@@ -107,7 +108,6 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
         intent.putExtra("selectedAlgorithm", selectedAlgorithm);
         intent.putExtra("selectedDriver", selectedDriver);
         intent.putExtra("selectedLevel", selectedLevel);
-        //Toast.makeText(this, selections[0], Toast.LENGTH_SHORT).show();
         startActivity(intent);
     }
 
@@ -120,19 +120,17 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
      */
     public void generateNewMazeSelected(View view) {
         Toast.makeText(this, "Generating new maze", Toast.LENGTH_SHORT).show();
-        //Toast.makeText(this, selectedAlgorithm+" " +selectedDriver+" "+selectedLevel, Toast.LENGTH_SHORT).show();
 
         SeedHolder.setMaze(selectedLevel);
         Log.v(TAG, "Generating new maze");
-        //Log.v(TAG, "should be null: " +String.valueOf(SeedHolder.getMaze("2")));
-        // SeedHolder.getMaze("2");
+
 
         Intent intent = new Intent(this, GeneratingActivity.class);
         intent.putExtra("selectedAlgorithm", selectedAlgorithm);
         intent.putExtra("selectedDriver", selectedDriver);
         intent.putExtra("selectedLevel", selectedLevel);
-        intent.putExtra("deterministic", "false");
-        //Toast.makeText(this, selections[0], Toast.LENGTH_SHORT).show();
+       // intent.putExtra("deterministic", "false");
+
         startActivity(intent);
 
     }
@@ -196,7 +194,7 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        //nothing here
     }
 
 

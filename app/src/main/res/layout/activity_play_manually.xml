@@ -7,4 +7,136 @@
     android:layout_height="match_parent"
     tools:context="edu.wm.cs.cs301.amazebylaurenberry.PlayManuallyActivity">
 
+    <ToggleButton
+        android:id="@+id/toggleMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="22dp"
+        android:textOff="@string/showMap"
+        android:textOn="@string/hideMap"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.921" />
+
+    <ToggleButton
+        android:id="@+id/toggleSolution"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="3dp"
+        android:textOff="@string/showSolution"
+        android:textOn="@string/hideSolution"
+        app:layout_constraintBottom_toBottomOf="@+id/toggleMap"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/toggleMap"
+        app:layout_constraintTop_toTopOf="@+id/toggleMap"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ToggleButton
+        android:id="@+id/toggleWalls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:textOff="@string/showWalls"
+        android:textOn="@string/hideWalls"
+        app:layout_constraintBottom_toBottomOf="@+id/toggleSolution"
+        app:layout_constraintStart_toEndOf="@+id/toggleSolution"
+        app:layout_constraintTop_toTopOf="@+id/toggleSolution"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/zoomIn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="16dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClick"
+        android:scaleType="fitCenter"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.435"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toggleSolution"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/icons8plus500" />
+
+    <ImageButton
+        android:id="@+id/zoomOut"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:onClick="onClick"
+        android:scaleType="fitCenter"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/zoomIn"
+        app:layout_constraintStart_toEndOf="@+id/zoomIn"
+        app:layout_constraintTop_toTopOf="@+id/zoomIn"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/icons8minus96" />
+
+    <ImageButton
+        android:id="@+id/upKey"
+        android:layout_width="87dp"
+        android:layout_height="58dp"
+        android:layout_marginBottom="64dp"
+        android:background="@android:drawable/screen_background_dark_transparent"
+        android:onClick="onClick"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/toggleSolution"
+        app:layout_constraintEnd_toEndOf="@+id/playScreen"
+        app:layout_constraintStart_toStartOf="@+id/playScreen"
+        app:srcCompat="@drawable/uparrow" />
+
+    <ImageButton
+        android:id="@+id/rightKey"
+        android:layout_width="87dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="63dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:drawable/screen_background_dark_transparent"
+        android:onClick="onClick"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/toggleWalls"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.941"
+        app:srcCompat="@drawable/rightarrow" />
+
+    <ImageButton
+        android:id="@+id/leftKey"
+        android:layout_width="87dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="65dp"
+        android:background="@android:drawable/screen_background_dark_transparent"
+        android:onClick="onClick"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/rightKey"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rightKey"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/leftarrow" />
+
+    <TextView
+        android:id="@+id/playScreen"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/upKey"
+        app:layout_constraintEnd_toEndOf="@+id/rightKey"
+        app:layout_constraintHorizontal_bias="0.475"
+        app:layout_constraintStart_toStartOf="@+id/leftKey"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.662" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
