@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="edu.wm.cs.cs301.amazebylaurenberry.PlayAnimationActivity">
 
-
     <ToggleButton
         android:id="@+id/toggleMap"
         android:layout_width="wrap_content"
