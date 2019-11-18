@@ -12,6 +12,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Random;
+
 
 /**
  * Class: AMazeActivity
@@ -32,6 +35,12 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
     private String selectedDriver = "Manual";
     private String selectedLevel = "0";
     Spinner driversSpinner;
+
+    int hashLoc;
+
+    public static HashMap<String, Integer> mazeLevels = new HashMap<String,Integer>();
+    public static HashMap<String, Integer> mazeDrivers = new HashMap<String,Integer>();
+    public static HashMap<String, Integer> mazeAlgs = new HashMap<String,Integer>();
 
 
     /**
@@ -89,19 +98,18 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
      *
      * @param view
      */
-    public void revisitOldMazeButtonClicked(View view) {
+    public void revisitOldMaze(View view) {
         Intent intent = new Intent(this, GeneratingActivity.class);
 
-        if (!SeedHolder.seeds.containsKey("maze" + selectedLevel)) {
-            Toast.makeText(this, "No saved maze, generating new one", Toast.LENGTH_SHORT).show();
-            Log.v(TAG, "No saved maze, generating new one");
-            intent.putExtra("deterministic", "false");
-            SeedHolder.setMaze(selectedLevel);
+        if (mazeLevels.containsKey(selectedLevel) && mazeDrivers.containsValue(hashLoc) && mazeAlgs.containsValue(hashLoc)) {
+            Toast.makeText(this, "Revisit old maze", Toast.LENGTH_SHORT).show();
+            Log.v(TAG, "Revisit old maze");
         }
         else {
-            Toast.makeText(this, "Revisiting old maze", Toast.LENGTH_SHORT).show();
-            Log.v(TAG, "Revisiting old maze");
-            intent.putExtra("deterministic", "true");
+
+            Toast.makeText(this, "No saved maze at that level, generating new one", Toast.LENGTH_SHORT).show();
+            Log.v(TAG, "No saved maze at that level, generating new one");
+            storeMaze(selectedLevel, selectedDriver, selectedAlgorithm);
         }
 
 
@@ -110,6 +118,20 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
         intent.putExtra("selectedLevel", selectedLevel);
         startActivity(intent);
     }
+
+
+    public void storeMaze(String level, String driver, String alg) {
+
+        Random rand = new Random();
+
+        hashLoc = rand.nextInt(100);
+
+        Log.v(TAG, "put level, driver, and alg in hash map at location: " + Integer.toString(hashLoc));
+        mazeLevels.put(level, hashLoc);
+        mazeDrivers.put(driver, hashLoc);
+        mazeAlgs.put(alg, hashLoc);
+    }
+
 
     /**
      * when the generate new maze button is clicked, this method is called
@@ -121,15 +143,13 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
     public void generateNewMazeSelected(View view) {
         Toast.makeText(this, "Generating new maze", Toast.LENGTH_SHORT).show();
 
-        SeedHolder.setMaze(selectedLevel);
+        storeMaze(selectedLevel, selectedDriver, selectedAlgorithm);
         Log.v(TAG, "Generating new maze");
-
 
         Intent intent = new Intent(this, GeneratingActivity.class);
         intent.putExtra("selectedAlgorithm", selectedAlgorithm);
         intent.putExtra("selectedDriver", selectedDriver);
         intent.putExtra("selectedLevel", selectedLevel);
-       // intent.putExtra("deterministic", "false");
 
         startActivity(intent);
 
@@ -181,11 +201,11 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String itemSelected = parent.getItemAtPosition(position).toString();
-        int lengthOfSpinner = parent.getCount();
-        if (lengthOfSpinner == 3) {
-            selectedAlgorithm = itemSelected;
-        } else {
+        if (itemSelected == "Manual" || itemSelected == "WallFollower" || itemSelected == "Wizard") {
             selectedDriver = itemSelected;
+        }
+        else {
+            selectedAlgorithm = itemSelected;
         }
         Toast.makeText(AMazeActivity.this, "Selected " + itemSelected, Toast.LENGTH_SHORT).show();
         Log.v(TAG, "Selected " + itemSelected);
