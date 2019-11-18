@@ -55,7 +55,7 @@
         android:layout_marginBottom="16dp"
         android:onClick="onClick"
         android:scaleType="fitCenter"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.435"
@@ -69,10 +69,9 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="12dp"
-        android:background="@android:drawable/screen_background_light_transparent"
         android:onClick="onClick"
         android:scaleType="fitCenter"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/incrementButton"
         app:layout_constraintStart_toEndOf="@+id/incrementButton"
         app:layout_constraintTop_toTopOf="@+id/incrementButton"
@@ -145,6 +144,33 @@
         app:layout_constraintStart_toStartOf="@+id/leftKey"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.662" />
+
+    <Button
+        android:id="@+id/go2losing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="31dp"
+        android:layout_marginRight="31dp"
+        android:layout_marginBottom="10dp"
+        android:onClick="go2losing"
+        android:text="@string/go2losing"
+        app:layout_constraintBottom_toTopOf="@+id/playScreen"
+        app:layout_constraintEnd_toStartOf="@+id/go2winning"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/go2winning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="10dp"
+        android:onClick="go2winning"
+        android:text="@string/go2winning"
+        app:layout_constraintBottom_toTopOf="@+id/playScreen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/go2losing" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

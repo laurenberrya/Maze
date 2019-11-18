@@ -24,7 +24,7 @@
     <TextView
         android:id="@+id/energyConsumption"
         android:layout_width="250dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="31dp"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/actualPath"

@@ -6,7 +6,7 @@
     <string name="select_algorithm">Choose generation algorithm:  </string>
     <string name="select_driver">Choose driver:  </string>
     <string name="showMap">Show Whole Maze</string>
-    <string name="hideMap">Hide Whole maze</string>
+    <string name="hideMap">Hide Whole Maze</string>
     <string name="showSolution">Show Solution</string>
     <string name="hideSolution">Hide Solution</string>
     <string name="showWalls">Show Walls</string>
@@ -20,8 +20,8 @@
     <string name="winningRestartInstructions">Click Back Button to Restart</string>
     <string name="outOfEnergy">You lost:(</string>
     <string name="remainingBattery">Remaining Battery:</string>
-    <string name="incrementButton">Increment</string>
-    <string name="decrementButton">Decrement</string>
+    <string name="incrementButton">Increment Size</string>
+    <string name="decrementButton">Decrement Size</string>
 
 
     <string-array name="algorithms_array">

@@ -6,6 +6,18 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
 
+/**
+ * Class: WinningActivity
+ *
+ * Responsibility: Displays that the user has won, along with directions on how to restart,
+ * overall energy consumption, the length of the path taken and the length of the shortest
+ * possible path.
+ *
+ * Collaborators: activity_winning.xml is the layout for this screen, and strings used on the layout
+ * are stored in strings.xml. The class is called from one of the playing screens, and can go back
+ * to the title screen if the back button is pressed.
+ */
+
 public class WinningActivity extends AppCompatActivity {
 
 
@@ -15,6 +27,12 @@ public class WinningActivity extends AppCompatActivity {
     String bestPath;
     String pathTaken;
 
+
+    /**
+     * Creates UI elements and gets intent info from the previous state
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +55,10 @@ public class WinningActivity extends AppCompatActivity {
         shortestPath.setText(getString(R.string.shortestPossiblePathLength) + bestPath);
         actualPath.setText(getString(R.string.lengthOfYourPath)+ pathTaken);
 
-
     }
+
     /**
-     * whenever the back button is pressed we want the game to go back to the main screen
-     * so that the user can restart from scratch.
+     * Takes the user back to the main screen when the back button is pressed.
      */
     @Override
     public void onBackPressed()

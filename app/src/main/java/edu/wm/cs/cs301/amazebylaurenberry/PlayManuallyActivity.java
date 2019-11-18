@@ -3,18 +3,23 @@ package edu.wm.cs.cs301.amazebylaurenberry;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.media.Image;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import java.util.Random;
 
+/**
+ * Class: PlayManuallyActivity
+ *
+ * Responsibility: Allows the user to manually navigate the robot through the maze (in theory). It
+ * displays the remaining energy, and provides features to toggle visibility of the map/solution.
+ * Also has left/right/up arrows to aide in navigating the robot.
+ *
+ * Collaborators: activity_play_manually.xml is the layout for this screen, and strings used on the layout
+ * are stored in strings.xml. This class implements an OnClickListener, and calls WinningActivity or LosingActivity
+ */
 public class PlayManuallyActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = "Logs";
@@ -31,6 +36,11 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
     int bestPath;
     int pathTaken;
 
+    /**
+     * Creates UI elements and gets intent info from the previous state
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,146 +61,96 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         toggleSolution.setChecked(true);
         toggleWalls.setChecked(true);
 
-
         Intent intent = getIntent();
         selectedAlgorithm = intent.getStringExtra("selectedAlgorithm");
         selectedDriver = intent.getStringExtra("selectedDriver");
         selectedLevel = intent.getStringExtra("selectedLevel");
 
-
-
         remainingBattery = findViewById(R.id.remainingBattery);
-
         remainingBattery.setText(getString(R.string.remainingBattery)+"3000");
 
         //for now
         bestPath = 50;
 
-
-
-        int randWin = new Random().nextInt(2);
-        Handler handler = new Handler();
-        if(randWin ==0){
-
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    go2Losing();
-                }
-            }, 5000);   //5 seconds
-
-        }
-        if(randWin==1){
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    go2winning();
-                }
-            }, 5000);   //5 seconds
-
-        }
-
     }
 
     /**
-     * Responds to user click, uses switch statement to determine which item was selected and executes
-     * desired functionality of that item
+     * Responds to user clicks on buttons
      * @param v
      */
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
-            case R.id.toggleMap:
-
-
-                if(toggleMap.isChecked())
-                {
-                    toggleMap.setChecked(true);
-                    Log.v(TAG,"Showing Local Map" );
-
-                }
-                else
-                {
-                    toggleMap.setChecked(false);
-                    Log.v(TAG,"Hiding Local Map" );
-                }
-
-
-
-                break;
-            case R.id.toggleSolution:
-
-                if(toggleSolution.isChecked())
-                {
-                    toggleSolution.setChecked(true);
-                    Log.v(TAG,"Showing Solution" );
-
-                }
-                else
-                {
-                    toggleSolution.setChecked(false);
-                    Log.v(TAG,"Hiding Solution" );
-                }
-
-                break;
-            case R.id.toggleWalls:
-
-                if(toggleWalls.isChecked())
-                {
-                    toggleWalls.setChecked(true);
-                    Log.v(TAG,"Showing full map" );
-
-                }
-                else
-                {
-                    toggleWalls.setChecked(false);
-                    Log.v(TAG,"Hiding full map" );
-                }
-
-                break;
-
-            case R.id.incrementButton:
-
-                Log.v(TAG,"Increment size" );
-                break;
-
-            case R.id.decrementButton:
-
-                Log.v(TAG,"Decrement size" );
-                break;
-
-            case R.id.leftKey:
-                Log.v(TAG,"Rotate Left" );
-                break;
-
-            case R.id.rightKey:
-                Log.v(TAG,"Rotate Right" );
-                break;
-
-            case R.id.upKey:
-                Log.v(TAG,"Move Forward" );
-                break;
-
-
-            default:
-                break;
+        if (v.getId() ==  R.id.toggleMap) {
+            if (toggleMap.isChecked()) {
+                toggleMap.setChecked(true);
+                Log.v(TAG, "Showing Map");
+            }
+            else {
+                toggleMap.setChecked(false);
+                Log.v(TAG, "Hiding Map");
+            }
         }
 
-        // if the map or visited walls is being displayed then we want the zoom buttons to
-        //be visible and usable, otherwise we don't want them there to confuse the user
+        if (v.getId() ==  R.id.toggleSolution) {
+            if (toggleSolution.isChecked()) {
+                toggleSolution.setChecked(true);
+                Log.v(TAG, "Showing Solution");
+            }
+            else {
+                toggleSolution.setChecked(false);
+                Log.v(TAG, "Hiding Solution");
+            }
+        }
+
+        if (v.getId() ==  R.id.toggleWalls) {
+            if (toggleWalls.isChecked()) {
+                toggleWalls.setChecked(true);
+                Log.v(TAG, "Showing walls");
+            }
+            else {
+                toggleWalls.setChecked(false);
+                Log.v(TAG, "Hiding walls");
+            }
+        }
+
+        if (v.getId() ==  R.id.incrementButton) {
+            Log.v(TAG, "Increment size");
+        }
+
+        if (v.getId() ==  R.id.decrementButton) {
+            Log.v(TAG, "Decrement size");
+        }
+
+        if (v.getId() ==  R.id.leftKey) {
+            Log.v(TAG, "Rotate Left");
+        }
+
+        if (v.getId() ==  R.id.rightKey) {
+            Log.v(TAG, "Rotate Right");
+        }
+
+        if (v.getId() ==  R.id.upKey) {
+            Log.v(TAG, "Move Forward");
+        }
+
+
+        // if the map or walls are being displayed then increment/decrement buttons should
+        //be visible, otherwise we want them invisible as to not confuse the user
         if (toggleMap.isChecked()||toggleWalls.isChecked()){
             incrementButton.setVisibility(View.VISIBLE);
             decrementButton.setVisibility(View.VISIBLE);
         }
-        else{
+        if (!toggleMap.isChecked() && !toggleWalls.isChecked()){
             incrementButton.setVisibility(View.INVISIBLE);
             decrementButton.setVisibility(View.INVISIBLE);
         }
     }
 
     /**
-     * Helper method that takes you to losing screen
+     * Method that takes you to losing screen if go2losing button was pressed
      */
-    private void go2Losing() {
+    public void go2losing(View view) {
         //since we haven't incorporated the robot yet
         battery = 3000;
         pathTaken = 100;
@@ -204,45 +164,32 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         intent.putExtra("bestPath", Integer.toString(bestPath));
         intent.putExtra("pathTaken", Integer.toString(pathTaken));
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                startActivity(intent);
-            }
-        }, 5000);   //5 seconds
-
-      //  startActivity(intent);
+        startActivity(intent);
     }
 
     /**
-     * Helper method that takes you to winning screen
+     *  Method that takes you to winning screen if go2winning button was pressed
      */
-    private void go2winning(){
-
+    public void go2winning(View view){
         //since we haven't incorporated the robot yet
         battery = 3000;
         pathTaken = 100;
 
-
         final Intent intent = new Intent(this, WinningActivity.class);
+        intent.putExtra("selectedAlgorithm",selectedAlgorithm);
+        intent.putExtra("selectedDriver", selectedDriver);
+        intent.putExtra("selectedLevel", selectedLevel);
+
         intent.putExtra("battery",Float.toString(battery));
         intent.putExtra("bestPath", Integer.toString(bestPath));
         intent.putExtra("pathTaken", Integer.toString(pathTaken));
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                startActivity(intent);
-            }
-        }, 5000);   //5 seconds
-
-
+        startActivity(intent);
     }
 
 
     /**
-     * whenever the back button is pressed we want the game to go back to the main screen
-     * so that the user can restart from scratch
+     * Takes the user back to the main screen when the back button is pressed.
      */
     @Override
     public void onBackPressed()
