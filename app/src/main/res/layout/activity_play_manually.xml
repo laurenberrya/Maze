@@ -131,7 +131,7 @@
         app:layout_constraintStart_toStartOf="@+id/playScreen"
         app:layout_constraintTop_toBottomOf="@+id/playScreen" />
 
-    <TextView
+    <edu.wm.cs.cs301.amazebylaurenberry.gui.MazePanel.gui.MazePanel
         android:id="@+id/playScreen"
         android:layout_width="250dp"
         android:layout_height="250dp"
