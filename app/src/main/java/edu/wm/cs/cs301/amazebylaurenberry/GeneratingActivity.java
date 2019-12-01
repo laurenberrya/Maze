@@ -8,6 +8,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.os.Bundle;
 
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.MazeFactory;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.MazeHolder;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Order;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.StubOrder;
+
 /**
  * Class: GeneratingActivity
  *
@@ -29,6 +35,15 @@ public class GeneratingActivity extends AppCompatActivity {
     String selectedDriver;
     String selectedAlgorithm;
     String selectedLevel;
+
+    Order.Builder builder;
+    StubOrder state;
+
+    MazeFactory factory;
+    Maze maze;
+    String deterministic = "false";
+
+    public static Handler handler;
 
     /**
      * Creates UI elements and gets intent info from the previous state

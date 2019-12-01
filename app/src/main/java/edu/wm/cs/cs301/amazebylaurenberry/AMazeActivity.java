@@ -93,12 +93,14 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
         if (mazeLevels.containsKey(selectedLevel) && mazeDrivers.containsValue(hashLoc) && mazeAlgs.containsValue(hashLoc)) {
             Toast.makeText(this, "Revisit old maze", Toast.LENGTH_SHORT).show();
             Log.v(TAG, "Revisit old maze");
+            intent.putExtra("deterministic", "true");
         }
         else {
 
             Toast.makeText(this, "No saved maze at that level, generating new one", Toast.LENGTH_SHORT).show();
             Log.v(TAG, "No saved maze at that level, generating new one");
             storeMaze(selectedLevel, selectedDriver, selectedAlgorithm);
+            intent.putExtra("deterministic", "false");
         }
 
         intent.putExtra("selectedAlgorithm", selectedAlgorithm);
@@ -143,6 +145,7 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
         intent.putExtra("selectedAlgorithm", selectedAlgorithm);
         intent.putExtra("selectedDriver", selectedDriver);
         intent.putExtra("selectedLevel", selectedLevel);
+        intent.putExtra("deterministic", "false");
 
         startActivity(intent);
     }
