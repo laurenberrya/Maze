@@ -6,7 +6,7 @@ package edu.wm.cs.cs301.amazebylaurenberry.generation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import gui.MazeFileWriter;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.MazeFileWriter;
 
 /**
  * BSPNodes are used to build a binary tree, where internal nodes keep track 

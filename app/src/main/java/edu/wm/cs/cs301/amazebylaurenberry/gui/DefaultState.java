@@ -3,9 +3,9 @@
  */
 package edu.wm.cs.cs301.amazebylaurenberry.gui;
 
-import gui.Constants.UserInput;
-import generation.Maze;
-import generation.Order.Builder;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.Constants.UserInput;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Order.Builder;
 
 /**
  * This is a default implementation of the State interface
@@ -19,7 +19,8 @@ import generation.Order.Builder;
 public class DefaultState implements State {
 
     @Override
-    public void start(Controller controller, MazePanel panel) {
+    //public void start(Controller controller, MazePanel panel) {
+    public void start( MazePanel panel){
         throw new RuntimeException("DefaultState:using unimplemented method");    
     }
 

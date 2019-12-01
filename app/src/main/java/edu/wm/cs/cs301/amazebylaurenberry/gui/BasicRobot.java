@@ -1,10 +1,15 @@
 package edu.wm.cs.cs301.amazebylaurenberry.gui;
-import generation.CardinalDirection;
-import generation.Floorplan;
-import generation.Maze;
-import gui.Constants.UserInput;
-import gui.Robot.Direction;
-import gui.Robot.Turn;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.CardinalDirection;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Floorplan;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.Constants.UserInput;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.Robot.Direction;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.Robot.Turn;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.PlaceMaze;
+
+import android.os.Message;
+
+import static edu.wm.cs.cs301.amazebylaurenberry.PlayAnimationActivity.aHandler;
 
 /**
  * 
@@ -14,7 +19,7 @@ import gui.Robot.Turn;
 
 public class BasicRobot implements Robot{
 
-	private Controller controller;
+	//private Controller controller;
 	private Maze configuration;
 	private Floorplan floorplan;
 	
@@ -28,6 +33,8 @@ public class BasicRobot implements Robot{
 	private boolean backwardSensor;
 	private boolean rightSensor;
 	private boolean leftSensor;
+
+	private StatePlaying state;
 	
 	
 
@@ -46,12 +53,12 @@ public class BasicRobot implements Robot{
 		backwardSensor = true;
 		rightSensor = true;
 		leftSensor = true;
-	
-		//currentDir = CardinalDirection.East;
-		//currentDir = controller.getCurrentDirection();
-		
-		controller = new Controller();
-		setMaze(controller);
+
+	//	controller = new Controller();
+	//	setMaze(controller);
+
+		configuration = PlaceMaze.getMaze();
+		state = getStatePlaying();
 
 	}
 	
@@ -61,7 +68,7 @@ public class BasicRobot implements Robot{
 	 * and battery level. Calls setMaze() with the controller that was
 	 * passed in.
 	 */
-	public BasicRobot(Controller controller) {
+	/*public BasicRobot(Controller controller) {
 		this.controller = controller;
 		
 		setBatteryLevel(3000);
@@ -79,7 +86,7 @@ public class BasicRobot implements Robot{
 		
 		setMaze(controller);
 		
-	}
+	}*/
 	
 	
 	/**
@@ -89,11 +96,11 @@ public class BasicRobot implements Robot{
 	 * @throws Exception if position is outside of the maze
 	 */
 	public int[] getCurrentPosition() throws Exception{
-		if (controller.getStatePlaying().getCurrentPosition()[0] <0 || controller.getStatePlaying().getCurrentPosition()[0]>= configuration.getWidth() || controller.getStatePlaying().getCurrentPosition()[1] < 0 || controller.getStatePlaying().getCurrentPosition()[1]>= configuration.getHeight()) {
+		if (getStatePlaying().getCurrentPosition()[0] <0 || getStatePlaying().getCurrentPosition()[0]>= configuration.getWidth() || getStatePlaying().getCurrentPosition()[1] < 0 || getStatePlaying().getCurrentPosition()[1]>= configuration.getHeight()) {
 			throw new Exception("Current robot position not within maze boundaries");
 		}
 		else{
-			return controller.getStatePlaying().getCurrentPosition();
+			return getStatePlaying().getCurrentPosition();
 		}
 		
 	}
@@ -105,7 +112,7 @@ public class BasicRobot implements Robot{
 	 */	
 	public CardinalDirection getCurrentDirection() {
 		//return currentDir;
-		return controller.getStatePlaying().getCurrentDirection();
+		return getStatePlaying().getCurrentDirection();
 	}
 	
 	
@@ -118,12 +125,12 @@ public class BasicRobot implements Robot{
 	 * @param controller is the communication partner for robot
 	 * @precondition controller != null, controller is in playing state and has a maze
 	 */
-	public void setMaze(Controller controller) {
-		assert(controller != null);
+	//public void setMaze(Controller controller) {
+	public void setMaze(Maze maze){
+		assert(maze != null);
 		
-		if (controller != null) {
-			this.controller = controller;
-			configuration = controller.getMazeConfiguration();
+		if (maze != null) {
+			configuration = maze;
 		}
 	}
 	
@@ -221,7 +228,7 @@ public class BasicRobot implements Robot{
 	 * @return true if robot is at the exit, false otherwise
 	 */
 	public boolean isAtExit() {
-		Floorplan fp = controller.getMazeConfiguration().getFloorplan();
+		Floorplan fp = configuration.getFloorplan();
 		try {
 			return fp.isExitPosition(getCurrentPosition()[0], getCurrentPosition()[1]);
 		} catch (Exception e) {
@@ -335,7 +342,7 @@ public class BasicRobot implements Robot{
 		
 		CardinalDirection cardDirect = convertDirectionToCardinalDirection(direction);
 		
-		configuration = controller.getMazeConfiguration();
+		//configuration = controller.getMazeConfiguration();
 		
 		while(configuration.hasWall(posX, posY, cardDirect) == false){
 			if (batteryLevel<1) { //not enough battery to complete distance check
@@ -472,73 +479,61 @@ public class BasicRobot implements Robot{
 		if(!hasStopped()) {
 			if (batteryLevel<3) { //not enough battery to rotate
 				isMoving = false;
-				controller.switchFromPlayingToLosing(pathLength, batteryLevel);
+				youLose();
 				return;
 			}
 
 			
 			if(turn == Turn.LEFT) {
-				controller.keyDown(UserInput.Left, 0);
+				state.keyDown(UserInput.Left, 0);
 				if(getCurrentDirection() == CardinalDirection.North) {
-					controller.getStatePlaying().setCurrentDirection(1,0);
-					//currentDir = CardinalDirection.East;
+					getStatePlaying().setCurrentDirection(1,0);
 				}
 				if(getCurrentDirection() == CardinalDirection.East) {
-					controller.getStatePlaying().setCurrentDirection(0,1);
-					//currentDir = CardinalDirection.South;
+					getStatePlaying().setCurrentDirection(0,1);
 				}
 				if(getCurrentDirection() == CardinalDirection.South) {
-					controller.getStatePlaying().setCurrentDirection(-1,0);
-					//currentDir = CardinalDirection.West;
+					getStatePlaying().setCurrentDirection(-1,0);
 				}
 				if(getCurrentDirection() == CardinalDirection.West) {
-					controller.getStatePlaying().setCurrentDirection(0,-1);
-					//currentDir = CardinalDirection.North;
+					getStatePlaying().setCurrentDirection(0,-1);
 				}
 				energyConsumption(0,0,1,0,0);
 			}
 			
 			if(turn == Turn.RIGHT) {
-				controller.keyDown(UserInput.Right, 0);
+				state.keyDown(UserInput.Right, 0);
 				if(getCurrentDirection() == CardinalDirection.North) {
-					controller.getStatePlaying().setCurrentDirection(-1,0);
-					//currentDir = CardinalDirection.West;
+					getStatePlaying().setCurrentDirection(-1,0);
 				}
 				if(getCurrentDirection() == CardinalDirection.East) {
-					controller.getStatePlaying().setCurrentDirection(0,-1);
-					//currentDir = CardinalDirection.North;
+					getStatePlaying().setCurrentDirection(0,-1);
 				}
 				if(getCurrentDirection() == CardinalDirection.South) {
-					controller.getStatePlaying().setCurrentDirection(1,0);
-					//currentDir = CardinalDirection.East;
+					getStatePlaying().setCurrentDirection(1,0);
 				}
 				if(getCurrentDirection() == CardinalDirection.West) {
-					controller.getStatePlaying().setCurrentDirection(0,1);
-					//currentDir = CardinalDirection.South;
+					getStatePlaying().setCurrentDirection(0,1);
 				}
 				energyConsumption(0,0,1,0,0);
 			}
 			
 			if(turn == Turn.AROUND) {
 				if (batteryLevel>=6 ) {
-					controller.keyDown(UserInput.Right, 0);
-					controller.keyDown(UserInput.Right, 0);
+					state.keyDown(UserInput.Right, 0);
+					state.keyDown(UserInput.Right, 0);
 					
 					if(getCurrentDirection() == CardinalDirection.North) {
-						controller.getStatePlaying().setCurrentDirection(0,1);
-						//currentDir = CardinalDirection.South;
+						getStatePlaying().setCurrentDirection(0,1);
 					}
 					else if(getCurrentDirection() == CardinalDirection.East) {
-						controller.getStatePlaying().setCurrentDirection(-1,0);
-						//currentDir = CardinalDirection.West;
+						getStatePlaying().setCurrentDirection(-1,0);
 					}
 					else if(getCurrentDirection() == CardinalDirection.South) {
-						controller.getStatePlaying().setCurrentDirection(0,-1);
-						//currentDir = CardinalDirection.North;
+						getStatePlaying().setCurrentDirection(0,-1);
 					}
 					else if(getCurrentDirection() == CardinalDirection.West) {
-						controller.getStatePlaying().setCurrentDirection(1,0);
-						//currentDir = CardinalDirection.East;
+						getStatePlaying().setCurrentDirection(1,0);
 					}
 					
 					energyConsumption(0,0,1,0,0);
@@ -546,14 +541,14 @@ public class BasicRobot implements Robot{
 				}
 				else {
 					isMoving = false;
-					controller.switchFromPlayingToLosing(pathLength, batteryLevel);
+					youLose();
 					return;
 				}
 			}
 			
 			if(batteryLevel == 0) {
 				isMoving = false;
-				controller.switchFromPlayingToLosing(pathLength, batteryLevel);
+				youLose();
 				return;
 			}
 		}
@@ -583,7 +578,7 @@ public class BasicRobot implements Robot{
 		
 		if(batteryLevel <5) {
 			isMoving = false;
-			controller.switchFromPlayingToLosing(pathLength, batteryLevel);
+			youLose();
 			return;
 		}
 
@@ -601,25 +596,22 @@ public class BasicRobot implements Robot{
 				for (int i=0; i<distance; i++) {
 					if(batteryLevel <5) {
 						isMoving = false;
-						controller.switchFromPlayingToLosing(pathLength, batteryLevel);
+						youLose();
 						return;
 					}
 					if ( !floorplan.hasWall(getCurrentPosition()[0], getCurrentPosition()[1], getCurrentDirection())) {
-						controller.keyDown(UserInput.Up,0);
+						state.keyDown(UserInput.Up,0);
 						if(getCurrentDirection() == CardinalDirection.North) { //north is down
-							controller.getStatePlaying().setCurrentPosition(getCurrentPosition()[0], getCurrentPosition()[1]--);
+							getStatePlaying().setCurrentPosition(getCurrentPosition()[0], getCurrentPosition()[1]--);
 						}
 						if(getCurrentDirection() == CardinalDirection.South) { //south is up
-							controller.getStatePlaying().setCurrentPosition(getCurrentPosition()[0], getCurrentPosition()[1]++);
-							//controller.getStatePlaying().getCurrentPosition()[1]++;
+							getStatePlaying().setCurrentPosition(getCurrentPosition()[0], getCurrentPosition()[1]++);
 						}
 						if(getCurrentDirection() == CardinalDirection.East) { //east is right
-							controller.getStatePlaying().setCurrentPosition(getCurrentPosition()[0]++, getCurrentPosition()[1]);
-							//controller.getStatePlaying().getCurrentPosition()[0]++;
+							getStatePlaying().setCurrentPosition(getCurrentPosition()[0]++, getCurrentPosition()[1]);
 						}
 						if(getCurrentDirection() == CardinalDirection.West) { //west is left
-							controller.getStatePlaying().setCurrentPosition(getCurrentPosition()[0]--, getCurrentPosition()[1]);
-							//controller.getStatePlaying().getCurrentPosition()[0]--;
+							getStatePlaying().setCurrentPosition(getCurrentPosition()[0]--, getCurrentPosition()[1]);
 						}
 
 						energyConsumption(0,0,0,1,0);
@@ -631,12 +623,12 @@ public class BasicRobot implements Robot{
 
 				if (moves!= distance &&!manual) {
 					isMoving =false;
-					controller.switchFromPlayingToLosing(pathLength, batteryLevel);
+					youLose();
 				}
 			}
 			if(batteryLevel == 0) {
 				isMoving = false;
-				controller.switchFromPlayingToLosing(pathLength, batteryLevel);
+				youLose();
 				return;
 			}
 		}
@@ -671,33 +663,29 @@ public class BasicRobot implements Robot{
 		}
 		
 		if(getCurrentDirection() == CardinalDirection.North) {
-			controller.getStatePlaying().setCurrentPosition(getCurrentPosition()[0], getCurrentPosition()[1]--);
-			//controller.getStatePlaying().getCurrentPosition()[1]--;
+			getStatePlaying().setCurrentPosition(getCurrentPosition()[0], getCurrentPosition()[1]--);
 			energyConsumption(0,0,0,0,1);
 			pathLength ++;
 		}
 		if(getCurrentDirection() == CardinalDirection.South) {
-			controller.getStatePlaying().setCurrentPosition(getCurrentPosition()[0], getCurrentPosition()[1]++);
-			//controller.getStatePlaying().getCurrentPosition()[1]++;
+			getStatePlaying().setCurrentPosition(getCurrentPosition()[0], getCurrentPosition()[1]++);
 			energyConsumption(0,0,0,0,1);
 			pathLength ++;
 		}
 		if(getCurrentDirection() == CardinalDirection.East) {
-			controller.getStatePlaying().setCurrentPosition(getCurrentPosition()[0]++, getCurrentPosition()[1]);
-			//controller.getStatePlaying().getCurrentPosition()[0]++;
+			getStatePlaying().setCurrentPosition(getCurrentPosition()[0]++, getCurrentPosition()[1]);
 			energyConsumption(0,0,0,0,1);
 			pathLength ++;
 		}
 		if(getCurrentDirection() == CardinalDirection.West) {
-			controller.getStatePlaying().setCurrentPosition(getCurrentPosition()[0]--, getCurrentPosition()[1]);
-			//controller.getStatePlaying().getCurrentPosition()[0]--;
+			getStatePlaying().setCurrentPosition(getCurrentPosition()[0]--, getCurrentPosition()[1]);
 			energyConsumption(0,0,0,0,1);
 			pathLength ++;
 		}
 		
 		if(batteryLevel == 0) {
 			isMoving = false;
-			controller.switchFromPlayingToLosing(pathLength, batteryLevel);
+			youLose();
 			return;
 		}
 	}
@@ -819,20 +807,26 @@ public class BasicRobot implements Robot{
 	}
 	
 	public int[] returnCurrentPos() {
-		return controller.getStatePlaying().getCurrentPosition();
+		return getStatePlaying().getCurrentPosition();
 		
 	}
-	
-	public State getState() {
-		return controller.getCurrentState();
+
+	public StatePlaying getStatePlaying(){
+		return state;
 	}
 	
 	
 	public Maze getMaze() {
-		//return configuration;
-		return controller.getMazeConfiguration();
+		return configuration;
 	}
 
+	private void youLose(){
+		Message msg = new Message();
+		msg.arg1 = -1;
+
+		/* Sending the message */
+		aHandler.sendMessage(msg);
+	}
 	
 
 }

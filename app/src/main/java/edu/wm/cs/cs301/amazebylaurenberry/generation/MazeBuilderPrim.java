@@ -20,13 +20,13 @@ import java.util.ArrayList;
 
 public class MazeBuilderPrim extends MazeBuilder implements Runnable {
 	
-	public MazeBuilderPrim() {
-		super();
+	public MazeBuilderPrim(String skill) {
+		super(skill);
 		System.out.println("MazeBuilderPrim uses Prim's algorithm to generate maze.");
 	}
 	
-	public MazeBuilderPrim(boolean det) {
-		super(det);
+	public MazeBuilderPrim(boolean det, String skill) {
+		super(det, skill);
 		System.out.println("MazeBuilderPrim uses Prim's algorithm to generate maze.");
 	}
 

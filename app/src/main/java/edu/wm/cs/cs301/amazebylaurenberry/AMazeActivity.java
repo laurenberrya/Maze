@@ -15,6 +15,8 @@ import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Random;
 
+import edu.wm.cs.cs301.amazebylaurenberry.generation.StoreMaze;
+
 
 /**
  * Class: AMazeActivity
@@ -37,11 +39,11 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
     private String selectedLevel = "0";
     Spinner driversSpinner;
 
-    int hashLoc;
+   /* int hashLoc;
 
     public static HashMap<String, Integer> mazeLevels = new HashMap<String,Integer>();
     public static HashMap<String, Integer> mazeDrivers = new HashMap<String,Integer>();
-    public static HashMap<String, Integer> mazeAlgs = new HashMap<String,Integer>();
+    public static HashMap<String, Integer> mazeAlgs = new HashMap<String,Integer>();*/
 
 
     /**
@@ -90,7 +92,7 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
     public void revisitOldMaze(View view) {
         Intent intent = new Intent(this, GeneratingActivity.class);
 
-        if (mazeLevels.containsKey(selectedLevel) && mazeDrivers.containsValue(hashLoc) && mazeAlgs.containsValue(hashLoc)) {
+        if (!StoreMaze.mazeLevels.containsKey(selectedLevel) ) {
             Toast.makeText(this, "Revisit old maze", Toast.LENGTH_SHORT).show();
             Log.v(TAG, "Revisit old maze");
             intent.putExtra("deterministic", "true");
@@ -99,7 +101,7 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
 
             Toast.makeText(this, "No saved maze at that level, generating new one", Toast.LENGTH_SHORT).show();
             Log.v(TAG, "No saved maze at that level, generating new one");
-            storeMaze(selectedLevel, selectedDriver, selectedAlgorithm);
+            StoreMaze.setMaze(selectedLevel, selectedDriver, selectedAlgorithm);
             intent.putExtra("deterministic", "false");
         }
 
@@ -118,7 +120,7 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
      * @param driver
      * @param alg
      */
-    public void storeMaze(String level, String driver, String alg) {
+  /*  public void storeMaze(String level, String driver, String alg) {
         Random rand = new Random();
         hashLoc = rand.nextInt(100);
 
@@ -126,7 +128,7 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
         mazeLevels.put(level, hashLoc);
         mazeDrivers.put(driver, hashLoc);
         mazeAlgs.put(alg, hashLoc);
-    }
+    }*/
 
 
     /**
@@ -138,7 +140,7 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
     public void generateNewMazeSelected(View view) {
         Toast.makeText(this, "Generating new maze", Toast.LENGTH_SHORT).show();
 
-        storeMaze(selectedLevel, selectedDriver, selectedAlgorithm);
+        StoreMaze.setMaze(selectedLevel, selectedDriver, selectedAlgorithm);
         Log.v(TAG, "Generating new maze");
 
         Intent intent = new Intent(this, GeneratingActivity.class);

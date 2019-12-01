@@ -1,6 +1,6 @@
 package edu.wm.cs.cs301.amazebylaurenberry.generation;
 
-import gui.Constants;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.Constants;
 import java.util.ArrayList;
 import java.util.Iterator;
 

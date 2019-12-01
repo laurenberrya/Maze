@@ -7,10 +7,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.os.Bundle;
+import android.util.Log;
 
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.MazeFactory;
-import edu.wm.cs.cs301.amazebylaurenberry.generation.MazeHolder;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.PlaceMaze;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Order;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.StubOrder;
 
@@ -59,6 +60,7 @@ public class GeneratingActivity extends AppCompatActivity {
         selectedAlgorithm = intent.getStringExtra("selectedAlgorithm");
         selectedDriver = intent.getStringExtra("selectedDriver");
         selectedLevel = intent.getStringExtra("selectedLevel");
+        deterministic = intent.getStringExtra("deterministic");
 
         TextView algorithm = findViewById(R.id.algorithm);
         algorithm.setText("Selected Maze generation algorithm: "+ selectedAlgorithm);
@@ -69,11 +71,40 @@ public class GeneratingActivity extends AppCompatActivity {
         TextView level = findViewById(R.id.level);
         level.setText("Selected level: "+ selectedLevel);
 
+        if (deterministic == "true"){
+            factory= new MazeFactory(true, selectedLevel);
+            Log.v(TAG, "det factory");
+        }
+        else{
+            factory = new MazeFactory(selectedLevel);
+            Log.v(TAG, "not det factory");
+        }
+
 
         txt  = (TextView) findViewById(R.id.progress);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setMax(100);
         progressBar.setVisibility(View.VISIBLE);
+
+
+        state = new StubOrder();
+
+        if (selectedAlgorithm.equals("Default")){
+            builder = Order.Builder.DFS;
+        }
+        else if (selectedAlgorithm.equals("Prim")){
+            builder = Order.Builder.Prim;
+        }
+        else {
+            builder = Order.Builder.Eller;
+        }
+
+
+        state.setSkill(Integer.parseInt(selectedLevel));
+        state.setBuilder(builder);
+
+
+        ///// START HERE ///////////
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

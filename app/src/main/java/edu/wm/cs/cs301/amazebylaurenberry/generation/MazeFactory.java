@@ -1,7 +1,7 @@
 package edu.wm.cs.cs301.amazebylaurenberry.generation;
 
-import generation.Factory;
-import generation.Order;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Factory;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Order;
 
 
 /**
@@ -14,6 +14,7 @@ import generation.Order;
 public class MazeFactory implements Factory {
 	// generation can be deterministic, i.e. same maze is generated each time for a given size
 	private boolean deterministic;
+	private String skill;
 	// factory keeps track of the current order, takes at most one order at a time
 	private Order currentOrder;
 	// factory has a MazeBuilder to do the work
@@ -27,14 +28,16 @@ public class MazeFactory implements Factory {
 	/**
 	 * Constructor for a randomized maze generation
 	 */
-	public MazeFactory(){
-		// nothing to do
+	public MazeFactory(String skill){
+		this.skill = skill;
 	}
 	/**
 	 * Constructor with option to make maze generation deterministic or random
 	 */
-	public MazeFactory(boolean deterministic){
+	public MazeFactory( boolean deterministic, String skill){
 		this.deterministic = deterministic;
+		this.skill = skill;
+
 	}
 	
 	//////////////////////// Factory interface //////////////////////////////////
@@ -51,15 +54,15 @@ public class MazeFactory implements Factory {
 		// set builder according to order
 		switch (order.getBuilder()) {
 		case DFS :
-			builder = deterministic? new MazeBuilder(true) : new MazeBuilder();
+			builder = deterministic? new MazeBuilder(true, skill) : new MazeBuilder(skill);
 			buildOrder();
 			break;
 		case Prim:
-			builder = deterministic? new MazeBuilderPrim(true) : new MazeBuilderPrim();
+			builder = deterministic? new MazeBuilderPrim(true, skill) : new MazeBuilderPrim(skill);
 			buildOrder();
 			break;
 		case Eller:
-			builder = deterministic? new MazeBuilderEller(true) : new MazeBuilderEller();
+			builder = deterministic? new MazeBuilderEller(true, skill) : new MazeBuilderEller(skill);
 			buildOrder();
 			break;
 		default:

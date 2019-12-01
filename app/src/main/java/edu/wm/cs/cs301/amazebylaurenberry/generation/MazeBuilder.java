@@ -1,6 +1,6 @@
 package edu.wm.cs.cs301.amazebylaurenberry.generation;
 
-import gui.Constants;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.Constants;
 
 
 /**
@@ -43,18 +43,22 @@ public class MazeBuilder implements Runnable {
 	/**
 	 * Constructor for a randomized maze generation
 	 */
-	public MazeBuilder(){
+	public MazeBuilder(String skillLevel){
+		int seed = StoreMaze.getMaze(skillLevel);
+		SingleRandom.setSeed(seed);
 		random = SingleRandom.getRandom();
 	}
 	/**
 	 * Constructor with option to make maze generation deterministic or random
 	 */
-	public MazeBuilder(boolean deterministic){
+	public MazeBuilder(boolean deterministic, String skillLevel){
 		if (true == deterministic)
 		{
+			int seed = StoreMaze.getMaze(skillLevel);
+			SingleRandom.setSeed(seed);
 			// Control random number generation
 			// TODO: implement code that makes sure that if MazeBuilder.build is called for same the skill level twice, it will deliver the same results
-			SingleRandom.setSeed(7);
+			//SingleRandom.setSeed(7);
 			// HINT: check http://download.oracle.com/javase/6/docs/api/java/util/Random.html\
 		}
 		random = SingleRandom.getRandom();

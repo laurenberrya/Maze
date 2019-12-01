@@ -5,12 +5,12 @@ import java.util.Random;
 
 public class MazeBuilderEller extends MazeBuilder implements Runnable {
 
-	public MazeBuilderEller() {
-		super();
+	public MazeBuilderEller(String skill) {
+		super(skill);
 		System.out.println("MazeBuilderEller uses Eller's algorithm to generate maze.");
 	}
-	public MazeBuilderEller(boolean det) {
-		super(det);
+	public MazeBuilderEller(boolean det, String skill) {
+		super(det, skill);
 		System.out.println("MazeBuilderEller uses Eller's algorithm to generate maze.");
 	}
 

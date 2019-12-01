@@ -17,7 +17,7 @@ import android.util.AttributeSet;
 
 import edu.wm.cs.cs301.amazebylaurenberry.R;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
-//import edu.wm.cs.cs301.amazebylaurenberry.generation.MazeHolder;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.PlaceMaze;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Wall;
 
 

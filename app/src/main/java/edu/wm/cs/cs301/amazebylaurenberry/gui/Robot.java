@@ -1,6 +1,7 @@
 package edu.wm.cs.cs301.amazebylaurenberry.gui;
 
-import generation.CardinalDirection;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.CardinalDirection;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
 
 
 /**
@@ -81,7 +82,8 @@ public interface Robot {
 	 * @param controller is the communication partner for robot
 	 * @precondition controller != null, controller is in playing state and has a maze
 	 */
-	void setMaze(Controller controller) ;	
+	//void setMaze(Controller controller) ;
+	void setMaze (Maze maze);
 	/**
 	 * Returns the current battery level.
 	 * The robot has a given battery level (energy level) 
