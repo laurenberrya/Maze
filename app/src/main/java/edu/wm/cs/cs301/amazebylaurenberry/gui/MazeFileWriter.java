@@ -4,8 +4,8 @@
 package edu.wm.cs.cs301.amazebylaurenberry.gui;
 
 
-import generation.BSPNode;
-import generation.Floorplan;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.BSPNode;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Floorplan;
 
 import java.io.File;
 

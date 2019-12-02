@@ -2,10 +2,11 @@ package edu.wm.cs.cs301.amazebylaurenberry.gui;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.CardinalDirection;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Floorplan;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.StoreMaze;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.Constants.UserInput;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.Robot.Direction;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.Robot.Turn;
-import edu.wm.cs.cs301.amazebylaurenberry.generation.PlaceMaze;
+
 
 import android.os.Message;
 
@@ -57,7 +58,7 @@ public class BasicRobot implements Robot{
 	//	controller = new Controller();
 	//	setMaze(controller);
 
-		configuration = PlaceMaze.getMaze();
+		configuration = StoreMaze.getWholeMaze();
 		state = getStatePlaying();
 
 	}
@@ -809,6 +810,10 @@ public class BasicRobot implements Robot{
 	public int[] returnCurrentPos() {
 		return getStatePlaying().getCurrentPosition();
 		
+	}
+
+	public void setStatePlaying(StatePlaying state){
+		this.state = state;
 	}
 
 	public StatePlaying getStatePlaying(){

@@ -1,14 +1,14 @@
 
 package edu.wm.cs.cs301.amazebylaurenberry.gui;
 
-import generation.BSPBranch;
-import generation.BSPLeaf;
-import generation.BSPNode;
-import generation.Floorplan;
-import generation.Distance;
-import generation.Maze;
-import generation.MazeContainer;
-import generation.Wall;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.BSPBranch;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.BSPLeaf;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.BSPNode;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Floorplan;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Distance;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.MazeContainer;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Wall;
 
 //import java.awt.Color;
 import java.io.File;
@@ -218,7 +218,7 @@ public class MazeFileReader {
 		//result.setColor(new Color(col)); 
 	
 		//refactored code for proj5
-		result.getPanel().setColor(MazePanel.newColor(col));
+		//result.getPanel().setColor(MazePanel.newColor(col));
 		
 		result.setSeen(getElementBooleanValue("seenSeg_" + number+ "_" + i, eElement));
 		result.setPartition(getElementBooleanValue("partitionSeg_" + number+ "_" + i, eElement));

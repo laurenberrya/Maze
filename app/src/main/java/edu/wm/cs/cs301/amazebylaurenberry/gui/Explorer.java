@@ -1,10 +1,10 @@
 package edu.wm.cs.cs301.amazebylaurenberry.gui;
 
-import generation.CardinalDirection;
-import generation.Distance;
-import generation.Maze;
-import gui.Robot.Direction;
-import gui.Robot.Turn;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.CardinalDirection;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Distance;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.Robot.Direction;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.Robot.Turn;
 
 /**
  * This class implements the Explorer algorithm that operates a robot to escape from a given maze.

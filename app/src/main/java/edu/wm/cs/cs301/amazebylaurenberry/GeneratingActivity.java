@@ -8,11 +8,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.os.Bundle;
 import android.util.Log;
+import android.os.AsyncTask;
+import android.os.Message;
+
 
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.MazeFactory;
-import edu.wm.cs.cs301.amazebylaurenberry.generation.PlaceMaze;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Order;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.StoreMaze;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.StubOrder;
 
 /**
@@ -106,7 +109,7 @@ public class GeneratingActivity extends AppCompatActivity {
 
         ///// START HERE ///////////
 
-        Handler handler = new Handler();
+       /* Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
                 //for now, set incrementally bc maze code not added in this proj
@@ -131,7 +134,89 @@ public class GeneratingActivity extends AppCompatActivity {
             public void run() {
                 switchToPlaying();
             }
-        }, 2000);   //2 seconds
+        }, 2000); */  //2 seconds
+
+        // handler used to received messages from the background thread that
+        //generates the maze. Updates progress bar
+        handler = new Handler(){
+
+            public void handleMessage(Message msg) {
+                /* get the value from the Message */
+                int progress = msg.arg1;
+                txt.setText("Generating..."+ Integer.toString(progress) + "%");
+                progressBar.setProgress(progress);
+            }
+        };
+
+
+        new MyTask().execute(100);
+
+    }
+
+
+
+    /**
+     * Class that runs the maze generation from a background thread so that the UI doesn't freeze up
+     * extends the AsyncTask class to do so
+     */
+    public class  MyTask extends AsyncTask<Integer, Integer, String> {
+        /**
+         * what the thread is doing, for now just simulates generation
+         * @param params
+         * @return
+         */
+
+
+
+
+        @Override
+        protected String doInBackground(Integer... params) {
+            //for (; count <= params[0]; count++) {
+            //Thread.sleep(1);
+            factory.order(state);
+            factory.waitTillDelivered();
+            //publishProgress(count);
+            //}
+            return "Task Completed.";
+        }
+
+        /**
+         * once the thread/generation is finished, switch to playing screen
+         * @param result
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            maze = state.getConfiguration();
+            StoreMaze.setWholeMaze(maze);
+            txt.setText(result);
+            switchToPlaying();
+            Log.v(TAG, "Finished Generating");
+
+        }
+
+        /**
+         * nothing
+         */
+        @Override
+        protected void onPreExecute() {
+
+            txt.setText("Task Starting...");
+        }
+
+        /**
+         * updates graphics of the progress bar in relation to the generation progress
+         * @param values
+         */
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            txt.setText("Generating..."+ values[0] + "%");
+            progressBar.setProgress(values[0]);
+        }
+
+
+
+
+
     }
 
 

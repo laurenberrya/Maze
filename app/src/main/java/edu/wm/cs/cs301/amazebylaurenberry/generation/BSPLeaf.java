@@ -3,7 +3,7 @@
  */
 package edu.wm.cs.cs301.amazebylaurenberry.generation;
 
-import gui.MazeFileWriter;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.MazeFileWriter;
 
 import java.util.ArrayList;
 

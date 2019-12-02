@@ -1,6 +1,6 @@
 package edu.wm.cs.cs301.amazebylaurenberry.gui;
 
-import generation.Distance;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Distance;
 
 /**
  * This interface specifies a robot driver that operates a robot to escape from a given maze. 

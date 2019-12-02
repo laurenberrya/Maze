@@ -3,7 +3,7 @@
  */
 package edu.wm.cs.cs301.amazebylaurenberry.generation;
 
-import gui.Constants;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.Constants;
 
 /**
  * Class encapsulates access to all information that constitutes a maze.

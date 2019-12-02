@@ -9,6 +9,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.StoreMaze;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.BasicRobot;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.Constants;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.ManuallyDriver;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.MazePanel;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.Robot;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.StatePlaying;
 
 /**
  * Class: PlayManuallyActivity
@@ -36,6 +44,11 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
     int bestPath;
     int pathTaken;
 
+    private MazePanel playScreen;
+    StatePlaying state;
+    Robot robot;
+    ManuallyDriver driver;
+
     /**
      * Creates UI elements and gets intent info from the previous state
      *
@@ -61,6 +74,8 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         toggleSolution.setChecked(true);
         toggleWalls.setChecked(true);
 
+        playScreen = findViewById(R.id.playScreen);
+
         Intent intent = getIntent();
         selectedAlgorithm = intent.getStringExtra("selectedAlgorithm");
         selectedDriver = intent.getStringExtra("selectedDriver");
@@ -69,8 +84,33 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         remainingBattery = findViewById(R.id.remainingBattery);
         remainingBattery.setText(getString(R.string.remainingBattery)+"3000");
 
-        //for now
-        bestPath = 50;
+
+
+        //gets the generated maze
+        Maze maze  = StoreMaze.getWholeMaze();
+        //Toast.makeText(PlayManuallyActivity.this, maze.toString(), Toast.LENGTH_LONG).show();
+
+        robot = new BasicRobot();
+        driver = new ManuallyDriver();
+        //set BatteryLevel must be set before setRobot so that the initial battery
+        //level can be establised in ManualDriver
+        robot.setBatteryLevel(3000);
+        driver.setRobot(robot);
+
+
+        state = new StatePlaying();
+        robot.setStatePlaying(state);
+        robot.setMaze(maze);
+        state.setMazeConfiguration(maze);
+        state.start(playScreen);
+
+        int[]pos = new int[0];
+        try {
+            pos = robot.getCurrentPosition();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        bestPath = maze.getDistanceToExit(pos[0],pos[1]);
 
     }
 
@@ -82,6 +122,7 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
 
         if (v.getId() ==  R.id.toggleMap) {
+            state.keyDown(Constants.UserInput.ToggleLocalMap,1);
             if (toggleMap.isChecked()) {
                 toggleMap.setChecked(true);
                 Log.v(TAG, "Showing Map");
@@ -93,6 +134,7 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         }
 
         if (v.getId() ==  R.id.toggleSolution) {
+            state.keyDown(Constants.UserInput.ToggleSolution,1);
             if (toggleSolution.isChecked()) {
                 toggleSolution.setChecked(true);
                 Log.v(TAG, "Showing Solution");
@@ -104,6 +146,7 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         }
 
         if (v.getId() ==  R.id.toggleWalls) {
+            state.keyDown(Constants.UserInput.ToggleFullMap,1);
             if (toggleWalls.isChecked()) {
                 toggleWalls.setChecked(true);
                 Log.v(TAG, "Showing walls");
@@ -115,23 +158,31 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         }
 
         if (v.getId() ==  R.id.incrementButton) {
+            state.keyDown(Constants.UserInput.ZoomIn,1);
             Log.v(TAG, "Increment size");
         }
 
         if (v.getId() ==  R.id.decrementButton) {
+            state.keyDown(Constants.UserInput.ZoomOut,1);
             Log.v(TAG, "Decrement size");
         }
 
         if (v.getId() ==  R.id.leftKey) {
+            driver.keyDown(Constants.UserInput.Left);
             Log.v(TAG, "Rotate Left");
         }
 
         if (v.getId() ==  R.id.rightKey) {
+            driver.keyDown(Constants.UserInput.Right);
             Log.v(TAG, "Rotate Right");
         }
 
         if (v.getId() ==  R.id.upKey) {
+            driver.keyDown(Constants.UserInput.Up);
             Log.v(TAG, "Move Forward");
+            if (state.getWin() == true){
+                go2winning();
+            }
         }
 
 
@@ -150,10 +201,9 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
     /**
      * Method that takes you to losing screen if go2losing button was pressed
      */
-    public void go2losing(View view) {
-        //since we haven't incorporated the robot yet
-        battery = 3000;
-        pathTaken = 100;
+    public void go2losing() {
+
+        pathTaken = robot.getOdometerReading();
 
         final Intent intent = new Intent(this, LosingActivity.class);
         intent.putExtra("selectedAlgorithm",selectedAlgorithm);
@@ -170,10 +220,10 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
     /**
      *  Method that takes you to winning screen if go2winning button was pressed
      */
-    public void go2winning(View view){
-        //since we haven't incorporated the robot yet
-        battery = 3000;
-        pathTaken = 100;
+    public void go2winning(){
+
+
+        pathTaken = robot.getOdometerReading();
 
         final Intent intent = new Intent(this, WinningActivity.class);
         intent.putExtra("selectedAlgorithm",selectedAlgorithm);

@@ -17,7 +17,7 @@ import android.util.AttributeSet;
 
 import edu.wm.cs.cs301.amazebylaurenberry.R;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
-import edu.wm.cs.cs301.amazebylaurenberry.generation.PlaceMaze;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.StoreMaze;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Wall;
 
 
@@ -57,14 +57,14 @@ public class MazePanel extends View {
 		noteBitMap = Bitmap.createBitmap(4000, 4000, Bitmap.Config.ARGB_8888);
 		noteTaker.setBitmap(noteBitMap);
 
-		bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.TEMPPP);
+		bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.xmastree);
 		shader1 = new BitmapShader(bitmap1, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
 
-		bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.TEMPPP);
+		bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.snow);
 		shader2 = new BitmapShader(bitmap2, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
 
 
-	//	Maze maze  = MazeHolder.getData();
+		Maze maze  = StoreMaze.getWholeMaze();
 
 		//figure out how to modify^^^
 

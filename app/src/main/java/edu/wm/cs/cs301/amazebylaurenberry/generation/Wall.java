@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import gui.MazeFileWriter;
-import gui.MazePanel;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.MazeFileWriter;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.MazePanel;
 
 /**
  * A wall is a continuous sequence of wallboards in the maze.
@@ -19,7 +19,7 @@ import gui.MazePanel;
  */
 public class Wall {
 	
-	private MazePanel panel = new MazePanel();
+	//private MazePanel panel = new MazePanel();
     // The following fields are all read-only and set by constructor
     // considering updatePartitionIfBorderCase() values can be one off
     // for width and height limit
@@ -114,7 +114,7 @@ public class Wall {
         partition = false;
         seen = false;
         // determine color
-        panel.initColor(distance, cc);
+       // panel.initColor(distance, cc);
         // all fields initialized
     }
 
@@ -262,8 +262,8 @@ public class Wall {
                 getStartPositionX());
         MazeFileWriter.appendChild(doc, mazeXML, "ySeg_" + number + "_" + i,
                 getStartPositionY());
-        MazeFileWriter.appendChild(doc, mazeXML, "colSeg_" + number + "_" + i,
-                panel.getColor().getRGB());
+       // MazeFileWriter.appendChild(doc, mazeXML, "colSeg_" + number + "_" + i,
+               // panel.getColor().getRGB());
     }
 
     /**
@@ -299,8 +299,8 @@ public class Wall {
         // all fields are equal, so both objects are equal
         return true;*/
     	
-    	return panel.equals(other);
-        
+    	//return panel.equals(other);
+        return true;
         
     }
 
@@ -504,7 +504,7 @@ public class Wall {
         return df1x * dy + df1y * (-dx);
     }
     
-    public MazePanel getPanel() {
-    	return panel;
-    }
+   // public MazePanel getPanel() {
+    //	return panel;
+    //}
 }

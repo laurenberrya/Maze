@@ -11,6 +11,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.BasicRobot;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.Constants;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.Explorer;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.ManuallyDriver;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.MazePanel;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.Robot;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.RobotDriver;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.StatePlaying;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.WallFollower;
+import edu.wm.cs.cs301.amazebylaurenberry.gui.Wizard;
+
 
 /**
  * Class: PlayAnimationActivity
@@ -42,6 +54,12 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
     int bestPath;
     int pathTaken;
 
+    RobotDriver driver;
+    StatePlaying state;
+    public static Handler aHandler;
+
+    boolean hasStarted = false;
+
 
     /**
      * Creates UI elements and gets intent info from the previous state
@@ -52,7 +70,6 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_animation);
-
 
         incrementButton = (ImageButton) findViewById(R.id.incrementButton);
         decrementButton = (ImageButton) findViewById(R.id.decrementButton);

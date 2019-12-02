@@ -3,11 +3,11 @@
  */
 package edu.wm.cs.cs301.amazebylaurenberry.gui;
 
-import generation.BSPBranch;
-import generation.BSPLeaf;
-import generation.BSPNode;
-import generation.Floorplan;
-import generation.Wall;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.BSPBranch;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.BSPLeaf;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.BSPNode;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Floorplan;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.Wall;
 //import java.awt.Color;
 //import java.awt.Graphics;
 //import java.awt.Graphics2D;

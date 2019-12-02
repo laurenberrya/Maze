@@ -258,4 +258,7 @@ public interface Robot {
 	 */
 	void jump() throws Exception;
 
+	void setStatePlaying(StatePlaying state);
+	StatePlaying getStatePlaying();
+
 }
