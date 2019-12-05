@@ -88,17 +88,15 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
 
         //gets the generated maze
         Maze maze  = StoreMaze.getWholeMaze();
-        //Toast.makeText(PlayManuallyActivity.this, maze.toString(), Toast.LENGTH_LONG).show();
-
         robot = new BasicRobot();
         driver = new ManuallyDriver();
-        //set BatteryLevel must be set before setRobot so that the initial battery
-        //level can be establised in ManualDriver
+        state = new StatePlaying();
+
+
         robot.setBatteryLevel(3000);
         driver.setRobot(robot);
 
 
-        state = new StatePlaying();
         robot.setStatePlaying(state);
         robot.setMaze(maze);
         state.setMazeConfiguration(maze);
@@ -110,7 +108,10 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         } catch (Exception e) {
             e.printStackTrace();
         }
-        bestPath = maze.getDistanceToExit(pos[0],pos[1]);
+        int posX = pos[0];
+        int posY = pos[1];
+
+        bestPath = maze.getDistanceToExit(posX,posY);
 
     }
 
@@ -123,6 +124,7 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
 
         if (v.getId() ==  R.id.toggleMap) {
             state.keyDown(Constants.UserInput.ToggleLocalMap,1);
+
             if (toggleMap.isChecked()) {
                 toggleMap.setChecked(true);
                 Log.v(TAG, "Showing Map");
@@ -135,6 +137,7 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
 
         if (v.getId() ==  R.id.toggleSolution) {
             state.keyDown(Constants.UserInput.ToggleSolution,1);
+
             if (toggleSolution.isChecked()) {
                 toggleSolution.setChecked(true);
                 Log.v(TAG, "Showing Solution");
@@ -147,6 +150,7 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
 
         if (v.getId() ==  R.id.toggleWalls) {
             state.keyDown(Constants.UserInput.ToggleFullMap,1);
+
             if (toggleWalls.isChecked()) {
                 toggleWalls.setChecked(true);
                 Log.v(TAG, "Showing walls");
@@ -159,26 +163,31 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
 
         if (v.getId() ==  R.id.incrementButton) {
             state.keyDown(Constants.UserInput.ZoomIn,1);
+
             Log.v(TAG, "Increment size");
         }
 
         if (v.getId() ==  R.id.decrementButton) {
             state.keyDown(Constants.UserInput.ZoomOut,1);
+
             Log.v(TAG, "Decrement size");
         }
 
         if (v.getId() ==  R.id.leftKey) {
             driver.keyDown(Constants.UserInput.Left);
+
             Log.v(TAG, "Rotate Left");
         }
 
         if (v.getId() ==  R.id.rightKey) {
             driver.keyDown(Constants.UserInput.Right);
+
             Log.v(TAG, "Rotate Right");
         }
 
         if (v.getId() ==  R.id.upKey) {
             driver.keyDown(Constants.UserInput.Up);
+
             Log.v(TAG, "Move Forward");
             if (state.getWin() == true){
                 go2winning();
@@ -188,14 +197,14 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
 
         // if the map or walls are being displayed then increment/decrement buttons should
         //be visible, otherwise we want them invisible as to not confuse the user
-        if (toggleMap.isChecked()||toggleWalls.isChecked()){
+      /*  if (toggleMap.isChecked()||toggleWalls.isChecked()){
             incrementButton.setVisibility(View.VISIBLE);
             decrementButton.setVisibility(View.VISIBLE);
         }
         if (!toggleMap.isChecked() && !toggleWalls.isChecked()){
             incrementButton.setVisibility(View.INVISIBLE);
             decrementButton.setVisibility(View.INVISIBLE);
-        }
+        }*/
     }
 
     /**
