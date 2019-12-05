@@ -229,11 +229,12 @@ public class GeneratingActivity extends AppCompatActivity {
     private void switchToPlaying(){
         Intent intent;
 
-        if (selectedDriver.equals("Manual")){
+        if (selectedDriver == "Manual"){
             intent = new Intent(this, PlayManuallyActivity.class);
         }
         else{
             intent = new Intent(this, PlayAnimationActivity.class);
+            Log.v(TAG, selectedDriver);
         }
         intent.putExtra("selectedAlgorithm",selectedAlgorithm);
         intent.putExtra("selectedDriver", selectedDriver);

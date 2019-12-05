@@ -70,5 +70,7 @@ public interface RobotDriver {
 	 * This is used as a measure of efficiency for a robot driver.
 	 */
 	int getPathLength();
+	public void pause();
+	//void start();
 	
 }

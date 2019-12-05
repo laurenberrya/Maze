@@ -38,6 +38,7 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
     private String selectedDriver = "Manual";
     private String selectedLevel = "0";
     Spinner driversSpinner;
+    Spinner algorithmsSpinner;
 
    /* int hashLoc;
 
@@ -64,7 +65,7 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
         skillLevelSeekBar(skillLevelSeekBar, changingText);
 
         //creates a spinner w an adapter for the user to choose a maze gen algorithm from
-        Spinner algorithmsSpinner = findViewById(R.id.algorithmSpinner);
+        algorithmsSpinner = findViewById(R.id.algorithmSpinner);
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
                 R.array.algorithms_array, android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -193,15 +194,17 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String itemSelected = parent.getItemAtPosition(position).toString();
+       /* String itemSelected = parent.getItemAtPosition(position).toString();
         if (itemSelected == "Manual" || itemSelected == "WallFollower" || itemSelected == "Wizard") {
             selectedDriver = itemSelected;
         }
         else {
             selectedAlgorithm = itemSelected;
-        }
-        Toast.makeText(AMazeActivity.this, "Selected " + itemSelected, Toast.LENGTH_SHORT).show();
-        Log.v(TAG, "Selected " + itemSelected);
+        }*/
+       selectedDriver = "Wizard";
+       selectedAlgorithm = "Prim";
+       // Toast.makeText(AMazeActivity.this, "Selected " + itemSelected, Toast.LENGTH_SHORT).show();
+        //Log.v(TAG, "Selected " + itemSelected);
     }
 
 

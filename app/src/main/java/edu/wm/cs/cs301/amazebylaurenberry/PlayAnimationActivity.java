@@ -10,18 +10,18 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+import android.os.Message;
 
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.BasicRobot;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.Constants;
-import edu.wm.cs.cs301.amazebylaurenberry.gui.Explorer;
-import edu.wm.cs.cs301.amazebylaurenberry.gui.ManuallyDriver;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.MazePanel;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.Robot;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.RobotDriver;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.StatePlaying;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.WallFollower;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.Wizard;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.StoreMaze;
 
 
 /**
@@ -38,7 +38,7 @@ import edu.wm.cs.cs301.amazebylaurenberry.gui.Wizard;
 public class PlayAnimationActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "Logs";
-
+    private MazePanel playScreen;
     private ToggleButton toggleSolution;
     private ToggleButton toggleMap;
     private ToggleButton toggleWalls;
@@ -53,7 +53,7 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
     float battery;
     int bestPath;
     int pathTaken;
-
+    Robot robot;
     RobotDriver driver;
     StatePlaying state;
     public static Handler aHandler;
@@ -98,8 +98,71 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
 
         remainingBattery.setText(getString(R.string.remainingBattery) + "3000");
 
-        //for now
-        bestPath = 50;
+        Maze maze  = StoreMaze.getWholeMaze();
+
+        playScreen = findViewById(R.id.playScreen);
+
+        robot = new BasicRobot();
+
+
+        if (selectedDriver == "Wizard"){
+            driver = new Wizard();
+        }
+        if (selectedDriver == "Wallfollower"){
+            driver = new WallFollower();
+        }
+
+
+        robot.setBatteryLevel(3000);
+        driver.setRobot(robot);
+
+
+
+        state = new StatePlaying();
+        robot.setStatePlaying(state);
+        robot.setMaze(maze);
+        state.setMazeConfiguration(maze);
+        state.start(playScreen);
+
+        int[]pos = new int[0];
+        try {
+            pos = robot.getCurrentPosition();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int posX = pos[0];
+        int posY = pos[1];
+
+        bestPath = maze.getDistanceToExit(posX,posY);
+
+        /**
+         * if the driver has won , then the message sent will equal 1 and
+         * we then want to change to the winning screen
+         */
+        aHandler = new Handler(){
+
+            public void handleMessage(Message msg) {
+                /* get the value from the Message */
+                int m1 = msg.arg1;
+                int m2 = msg.arg2;
+                //txt.setText("Generating..."+ Integer.toString(progress) + "%");
+                //progressBar.setProgress(progress);
+
+                if (m1==1){
+                    go2winning();
+                }
+                else if (m1==-1){
+                    go2losing();
+                }
+                else{
+                    remainingBattery.setText(getString(R.string.remainingBattery)+" "+Integer.toString(m2));
+                }
+
+
+
+            }
+        };
+
 
     }
 
@@ -113,6 +176,8 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
 
         if (v.getId() == R.id.toggleMap) {
+            state.keyDown(Constants.UserInput.ToggleLocalMap,1);
+
             if (toggleMap.isChecked()) {
                 toggleMap.setChecked(true);
                 Log.v(TAG, "Showing Map");
@@ -125,6 +190,8 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
         }
 
         if (v.getId() == R.id.toggleSolution) {
+            state.keyDown(Constants.UserInput.ToggleSolution,1);
+
             if (toggleSolution.isChecked()) {
                 toggleSolution.setChecked(true);
                 Log.v(TAG, "Showing Solution");
@@ -138,6 +205,8 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
 
 
         if (v.getId() == R.id.toggleWalls) {
+            state.keyDown(Constants.UserInput.ToggleFullMap,1);
+
             if (toggleWalls.isChecked()) {
                 toggleWalls.setChecked(true);
                 Log.v(TAG, "Showing Walls");
@@ -150,29 +219,52 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
         }
 
         if (v.getId() == R.id.incrementButton) {
+            state.keyDown(Constants.UserInput.ZoomIn,1);
+
             Log.v(TAG, "Increment Size");
         }
 
         if (v.getId() == R.id.decrementButton) {
+            state.keyDown(Constants.UserInput.ZoomOut,1);
+
             Log.v(TAG, "Decrement Size");
         }
 
         if (v.getId() == R.id.pauseButton) {
+
             Log.v(TAG, "Pausing Animation");
+
             pauseButton.setVisibility(View.INVISIBLE);
+            driver.pause();
             startButton.setVisibility(View.VISIBLE);
         }
 
         if (v.getId() == R.id.startButton) {
             Log.v(TAG, "Resuming Animation");
+            driver.pause();
             startButton.setVisibility(View.INVISIBLE);
+
             pauseButton.setVisibility(View.VISIBLE);
+
+            try {
+                if (!hasStarted){
+                    driver.drive2Exit();
+                    hasStarted =true;
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
+
+
 
 
         // if the map or walls are being displayed then increment/decrement buttons should
         //be visible, otherwise we want them invisible as to not confuse the user
-        if (toggleMap.isChecked() || toggleWalls.isChecked()) {
+       if (toggleMap.isChecked() || toggleWalls.isChecked()) {
             incrementButton.setVisibility(View.VISIBLE);
             decrementButton.setVisibility(View.VISIBLE);
         }
@@ -186,19 +278,22 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
     /**
      * Method that takes you to losing screen
      */
-    public void go2losing(View view) {
+    public void go2losing(/*View view*/) {
         //since we haven't incorporated the robot yet
-        battery = 3000;
-        pathTaken = 100;
+       // battery = 3000;
+       // pathTaken = 100;
+
+      //  battery = 3000- robot.getBatteryLevel();
+       // pathTaken = robot.getOdometerReading();
 
         final Intent intent = new Intent(this, LosingActivity.class);
         intent.putExtra("selectedAlgorithm", selectedAlgorithm);
         intent.putExtra("selectedDriver", selectedDriver);
         intent.putExtra("selectedLevel", selectedLevel);
 
-        intent.putExtra("battery", Float.toString(battery));
+     /*   intent.putExtra("battery", Float.toString(battery));
         intent.putExtra("bestPath", Integer.toString(bestPath));
-        intent.putExtra("pathTaken", Integer.toString(pathTaken));
+        intent.putExtra("pathTaken", Integer.toString(pathTaken));*/
         startActivity(intent);
 
     }
@@ -207,11 +302,10 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
     /**
      * Method that takes you to winning screen
      */
-    public void go2winning(View view) {
+    public void go2winning(/*View view*/) {
 
-        //since we haven't incorporated the robot yet
-        battery = 3000;
-        pathTaken = 100;
+        battery = 3000- robot.getBatteryLevel();
+        pathTaken = robot.getOdometerReading();
 
         final Intent intent = new Intent(this, WinningActivity.class);
         intent.putExtra("selectedAlgorithm",selectedAlgorithm);

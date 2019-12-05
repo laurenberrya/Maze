@@ -23,6 +23,7 @@ public class WallFollower implements RobotDriver {
 	private int width, height;
 	private float initialBattery;
 	private Maze configuration;
+	boolean paused; //= true;
 	
 	public WallFollower() {
 		robot = null;
@@ -216,6 +217,16 @@ public class WallFollower implements RobotDriver {
 	 */
 	public int getPathLength() {
 		return robot.getOdometerReading();
+	}
+
+	public void pause(){
+		if (paused){
+			paused = false;
+		}
+		else{
+			paused = true;
+		}
+
 	}
 	
 }

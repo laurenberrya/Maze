@@ -260,5 +260,6 @@ public interface Robot {
 
 	void setStatePlaying(StatePlaying state);
 	StatePlaying getStatePlaying();
+	boolean robotDriverAtExit(BasicRobot robot);
 
 }
