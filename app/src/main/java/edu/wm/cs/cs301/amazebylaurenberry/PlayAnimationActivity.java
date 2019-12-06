@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.os.Message;
@@ -47,6 +48,8 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
     private ImageButton pauseButton;
     private ImageButton startButton;
     private TextView remainingBattery;
+    private Button go2losing;
+    private Button go2winning;
     String selectedDriver;
     String selectedAlgorithm;
     String selectedLevel;
@@ -93,6 +96,12 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
 
         pauseButton = findViewById(R.id.pauseButton);
         startButton = findViewById(R.id.startButton);
+
+        go2losing = findViewById(R.id.go2losing);
+        go2winning = findViewById(R.id.go2winning);
+
+        go2losing.setVisibility(View.INVISIBLE);
+        go2winning.setVisibility(View.INVISIBLE);
 
         remainingBattery = findViewById(R.id.remainingBattery);
 

@@ -141,7 +141,6 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginBottom="17dp"
-        android:onClick="go2losing"
         android:text="@string/go2losing"
         app:layout_constraintBottom_toTopOf="@+id/playScreen"
         app:layout_constraintEnd_toStartOf="@+id/go2winning"
@@ -155,10 +154,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="6dp"
         android:layout_marginRight="6dp"
-        android:onClick="go2winning"
         android:text="@string/go2winning"
         app:layout_constraintBaseline_toBaselineOf="@+id/go2losing"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/go2losing" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
