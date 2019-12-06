@@ -34,7 +34,7 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
     private ToggleButton toggleWalls;
     private ImageButton decrementButton;
     private ImageButton incrementButton;
-    private TextView remainingBattery;
+   // private TextView remainingBattery;
     String selectedDriver;
     String selectedAlgorithm;
     String selectedLevel;
@@ -79,8 +79,10 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         selectedDriver = intent.getStringExtra("selectedDriver");
         selectedLevel = intent.getStringExtra("selectedLevel");
 
-        remainingBattery = findViewById(R.id.remainingBattery);
-        remainingBattery.setText(getString(R.string.remainingBattery));
+        battery = 3000;
+
+     //   remainingBattery = findViewById(R.id.remainingBattery);
+       // remainingBattery.setText(getString(R.string.remainingBattery));
 
 
         Maze maze  = StoreMaze.getWholeMaze();
@@ -162,23 +164,35 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
 
         if (v.getId() ==  R.id.leftKey) {
             state.keyDown(Constants.UserInput.Left,1);
+            battery = battery - 3;
 
             Log.v(TAG, "Rotate Left");
+            if (battery <=0 && !state.getWin()){
+                go2losing();
+            }
         }
 
         if (v.getId() ==  R.id.rightKey) {
             state.keyDown(Constants.UserInput.Right, 1);
+            battery = battery - 3;
 
             Log.v(TAG, "Rotate Right");
+            if (battery <=0 && !state.getWin()){
+                go2losing();
+            }
         }
 
         if (v.getId() ==  R.id.upKey) {
             state.keyDown(Constants.UserInput.Up, 1);
             pathTaken++;
+            battery = battery-5;
 
             Log.v(TAG, "Move Forward");
             if (state.getWin()){
                 go2winning();
+            }
+            if (battery <=0 && !state.getWin()){
+                go2losing();
             }
         }
 
