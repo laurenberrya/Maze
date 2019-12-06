@@ -151,11 +151,9 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
         aHandler = new Handler(){
 
             public void handleMessage(Message msg) {
-                /* get the value from the Message */
                 int m1 = msg.arg1;
                 int m2 = msg.arg2;
-                //txt.setText("Generating..."+ Integer.toString(progress) + "%");
-                //progressBar.setProgress(progress);
+
 
                 if (m1==1){
                     go2winning();
