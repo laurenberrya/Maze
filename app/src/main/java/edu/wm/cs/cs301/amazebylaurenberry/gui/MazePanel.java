@@ -38,7 +38,7 @@ public class MazePanel extends View {
 
 
 
-	public MazePanel(Context context,AttributeSet attrs) {
+	public MazePanel(Context context, AttributeSet attrs) {
 		super(context,attrs);
 		init(attrs,0);
 
@@ -57,10 +57,10 @@ public class MazePanel extends View {
 		noteBitMap = Bitmap.createBitmap(4000, 4000, Bitmap.Config.ARGB_8888);
 		noteTaker.setBitmap(noteBitMap);
 
-		bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.xmastree);
+		bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.stone);
 		shader1 = new BitmapShader(bitmap1, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
 
-		bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.snow);
+		bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.sunset4);
 		shader2 = new BitmapShader(bitmap2, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
 
 
@@ -103,9 +103,12 @@ public class MazePanel extends View {
 	}
 
 	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+	protected void onMeasure(int width, int height) {
 		Log.v(TAG, "Called onMeasure method");
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		super.onMeasure(width, height);
+		//width = this.getMeasuredWidth();
+		//height = this.getMeasuredHeight();
+		//setMeasuredDimension(getWidth(), getHeight());
 
 	}
 
@@ -209,6 +212,9 @@ public class MazePanel extends View {
 		if (color == "Red") {
 			paint.setColor(Color.RED);
 		}
+		if (color == "Green") {
+			paint.setColor(Color.GREEN);
+		}
 	}
 	
 	
@@ -266,7 +272,6 @@ public class MazePanel extends View {
 		paint.setShader(shader2);
 		canvas.drawRect(0, 0, width, height/2, paint);
 		paint.setShader(null);
-		// grey rectangle in lower half of screen
 		setColor("black");
 		canvas.drawRect(0,height/2, width, height, paint);
 	}

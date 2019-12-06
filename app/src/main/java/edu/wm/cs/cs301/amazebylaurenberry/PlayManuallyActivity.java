@@ -82,7 +82,7 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         selectedLevel = intent.getStringExtra("selectedLevel");
 
         remainingBattery = findViewById(R.id.remainingBattery);
-        remainingBattery.setText(getString(R.string.remainingBattery)+"3000");
+        remainingBattery.setText(getString(R.string.remainingBattery)+remainingBattery);
 
 
 
@@ -174,22 +174,22 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         }
 
         if (v.getId() ==  R.id.leftKey) {
-            driver.keyDown(Constants.UserInput.Left);
+            state.keyDown(Constants.UserInput.Left,1);
 
             Log.v(TAG, "Rotate Left");
         }
 
         if (v.getId() ==  R.id.rightKey) {
-            driver.keyDown(Constants.UserInput.Right);
+            state.keyDown(Constants.UserInput.Right, 1);
 
             Log.v(TAG, "Rotate Right");
         }
 
         if (v.getId() ==  R.id.upKey) {
-            driver.keyDown(Constants.UserInput.Up);
+            state.keyDown(Constants.UserInput.Up, 1);
 
             Log.v(TAG, "Move Forward");
-            if (state.getWin() == true){
+            if (state.getWin()){
                 go2winning();
             }
         }

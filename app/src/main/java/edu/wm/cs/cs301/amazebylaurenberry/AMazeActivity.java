@@ -194,15 +194,15 @@ public class AMazeActivity extends AppCompatActivity implements AdapterView.OnIt
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-       /* String itemSelected = parent.getItemAtPosition(position).toString();
-        if (itemSelected == "Manual" || itemSelected == "WallFollower" || itemSelected == "Wizard") {
+        String itemSelected = parent.getItemAtPosition(position).toString();
+        if (itemSelected.equals("Manual") || itemSelected.equals("WallFollower") || itemSelected.equals("Wizard")) {
             selectedDriver = itemSelected;
         }
         else {
             selectedAlgorithm = itemSelected;
-        }*/
-       selectedDriver = "Wizard";
-       selectedAlgorithm = "Prim";
+        }
+       //selectedDriver = "Wizard";
+       //selectedAlgorithm = "Prim";
        // Toast.makeText(AMazeActivity.this, "Selected " + itemSelected, Toast.LENGTH_SHORT).show();
         //Log.v(TAG, "Selected " + itemSelected);
     }

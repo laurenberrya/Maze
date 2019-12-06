@@ -143,7 +143,7 @@ public class GeneratingActivity extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 /* get the value from the Message */
                 int progress = msg.arg1;
-                txt.setText("Generating..."+ Integer.toString(progress) + "%");
+                txt.setText( Integer.toString(progress) + "% done");
                 progressBar.setProgress(progress);
             }
         };
@@ -209,7 +209,7 @@ public class GeneratingActivity extends AppCompatActivity {
          */
         @Override
         protected void onProgressUpdate(Integer... values) {
-            txt.setText("Generating..."+ values[0] + "%");
+            txt.setText(values[0] + "% done");
             progressBar.setProgress(values[0]);
         }
 
@@ -229,7 +229,7 @@ public class GeneratingActivity extends AppCompatActivity {
     private void switchToPlaying(){
         Intent intent;
 
-        if (selectedDriver == "Manual"){
+        if (selectedDriver.equals("Manual")){
             intent = new Intent(this, PlayManuallyActivity.class);
         }
         else{
