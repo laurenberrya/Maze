@@ -34,7 +34,7 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
     private ToggleButton toggleWalls;
     private ImageButton decrementButton;
     private ImageButton incrementButton;
-   // private TextView remainingBattery;
+   //private TextView remainingBattery;
     String selectedDriver;
     String selectedAlgorithm;
     String selectedLevel;
@@ -81,8 +81,8 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
 
         battery = 3000;
 
-     //   remainingBattery = findViewById(R.id.remainingBattery);
-       // remainingBattery.setText(getString(R.string.remainingBattery));
+       // remainingBattery = findViewById(R.id.remainingBattery);
+        //remainingBattery.setText(getString(R.string.remainingBattery) + "3000");
 
 
         Maze maze  = StoreMaze.getWholeMaze();

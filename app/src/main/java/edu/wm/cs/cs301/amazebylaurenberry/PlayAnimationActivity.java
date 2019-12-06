@@ -144,10 +144,9 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
 
         bestPath = maze.getDistanceToExit(posX,posY);
 
-        /**
-         * if the driver has won , then the message sent will equal 1 and
-         * we then want to change to the winning screen
-         */
+
+        //if the driver wins, the message sent will equal 1
+
         aHandler = new Handler(){
 
             public void handleMessage(Message msg) {
