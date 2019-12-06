@@ -11,11 +11,9 @@ import android.widget.ToggleButton;
 
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.StoreMaze;
-import edu.wm.cs.cs301.amazebylaurenberry.gui.BasicRobot;
+
 import edu.wm.cs.cs301.amazebylaurenberry.gui.Constants;
-import edu.wm.cs.cs301.amazebylaurenberry.gui.ManuallyDriver;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.MazePanel;
-import edu.wm.cs.cs301.amazebylaurenberry.gui.Robot;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.StatePlaying;
 
 /**
@@ -46,8 +44,8 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
 
     private MazePanel playScreen;
     StatePlaying state;
-    Robot robot;
-    ManuallyDriver driver;
+
+
 
     /**
      * Creates UI elements and gets intent info from the previous state
@@ -82,29 +80,18 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         selectedLevel = intent.getStringExtra("selectedLevel");
 
         remainingBattery = findViewById(R.id.remainingBattery);
-        remainingBattery.setText(getString(R.string.remainingBattery)+remainingBattery);
+        remainingBattery.setText(getString(R.string.remainingBattery));
 
 
-
-        //gets the generated maze
         Maze maze  = StoreMaze.getWholeMaze();
-        robot = new BasicRobot();
-        driver = new ManuallyDriver();
         state = new StatePlaying();
 
-
-        robot.setBatteryLevel(3000);
-        driver.setRobot(robot);
-
-
-        robot.setStatePlaying(state);
-        robot.setMaze(maze);
         state.setMazeConfiguration(maze);
         state.start(playScreen);
 
         int[]pos = new int[0];
         try {
-            pos = robot.getCurrentPosition();
+            pos = maze.getStartingPosition();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -187,6 +174,7 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
 
         if (v.getId() ==  R.id.upKey) {
             state.keyDown(Constants.UserInput.Up, 1);
+            pathTaken++;
 
             Log.v(TAG, "Move Forward");
             if (state.getWin()){
@@ -195,24 +183,12 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
         }
 
 
-        // if the map or walls are being displayed then increment/decrement buttons should
-        //be visible, otherwise we want them invisible as to not confuse the user
-      /*  if (toggleMap.isChecked()||toggleWalls.isChecked()){
-            incrementButton.setVisibility(View.VISIBLE);
-            decrementButton.setVisibility(View.VISIBLE);
-        }
-        if (!toggleMap.isChecked() && !toggleWalls.isChecked()){
-            incrementButton.setVisibility(View.INVISIBLE);
-            decrementButton.setVisibility(View.INVISIBLE);
-        }*/
     }
 
     /**
      * Method that takes you to losing screen if go2losing button was pressed
      */
     public void go2losing() {
-
-        pathTaken = robot.getOdometerReading();
 
         final Intent intent = new Intent(this, LosingActivity.class);
         intent.putExtra("selectedAlgorithm",selectedAlgorithm);
@@ -231,8 +207,6 @@ public class PlayManuallyActivity extends AppCompatActivity implements View.OnCl
      */
     public void go2winning(){
 
-
-        pathTaken = robot.getOdometerReading();
 
         final Intent intent = new Intent(this, WinningActivity.class);
         intent.putExtra("selectedAlgorithm",selectedAlgorithm);
