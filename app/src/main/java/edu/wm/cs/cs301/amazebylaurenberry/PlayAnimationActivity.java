@@ -105,10 +105,10 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
         robot = new BasicRobot();
 
 
-        if (selectedDriver == "Wizard"){
+        if (selectedDriver.equals("Wizard")){
             driver = new Wizard();
         }
-        if (selectedDriver == "Wallfollower"){
+        if (selectedDriver.equals("Wallfollower")){
             driver = new WallFollower();
         }
 
@@ -261,17 +261,6 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
 
 
 
-
-        // if the map or walls are being displayed then increment/decrement buttons should
-        //be visible, otherwise we want them invisible as to not confuse the user
-       if (toggleMap.isChecked() || toggleWalls.isChecked()) {
-            incrementButton.setVisibility(View.VISIBLE);
-            decrementButton.setVisibility(View.VISIBLE);
-        }
-        if (!toggleMap.isChecked() && !toggleWalls.isChecked()){
-            incrementButton.setVisibility(View.INVISIBLE);
-            decrementButton.setVisibility(View.INVISIBLE);
-        }
     }
 
 
@@ -279,21 +268,19 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
      * Method that takes you to losing screen
      */
     public void go2losing(/*View view*/) {
-        //since we haven't incorporated the robot yet
-       // battery = 3000;
-       // pathTaken = 100;
 
-      //  battery = 3000- robot.getBatteryLevel();
-       // pathTaken = robot.getOdometerReading();
+
+        battery = 3000- robot.getBatteryLevel();
+        pathTaken = robot.getOdometerReading();
 
         final Intent intent = new Intent(this, LosingActivity.class);
         intent.putExtra("selectedAlgorithm", selectedAlgorithm);
         intent.putExtra("selectedDriver", selectedDriver);
         intent.putExtra("selectedLevel", selectedLevel);
 
-     /*   intent.putExtra("battery", Float.toString(battery));
+        intent.putExtra("battery", Float.toString(battery));
         intent.putExtra("bestPath", Integer.toString(bestPath));
-        intent.putExtra("pathTaken", Integer.toString(pathTaken));*/
+        intent.putExtra("pathTaken", Integer.toString(pathTaken));
         startActivity(intent);
 
     }

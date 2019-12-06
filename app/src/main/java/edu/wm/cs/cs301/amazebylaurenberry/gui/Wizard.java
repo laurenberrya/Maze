@@ -180,17 +180,8 @@ public class Wizard implements RobotDriver {
 		configuration = StoreMaze.getWholeMaze();
 		currDir = robot.getCurrentDirection();
 		plz = new plzWork();
-		//Log.v(TAG, "pre while loop");
-		//while the robot is not at the exit position, move him towards it
-		//while (!this.robot.isAtExit()&&!this.robot.hasStopped()) {
 
 		plz.execute(100);
-		//}
-
-		//the robot should now be at the exit position. We now want it to turn and face wherever the exit is
-		//and then move through it. Needs to have a distance sensor in given direction
-		//Log.v(TAG, "post while loop");
-		//return this.robot.moveThroughExit();
 
 		return true;
 	}
@@ -281,23 +272,7 @@ public class Wizard implements RobotDriver {
 
 			CardinalDirection cd = robot.getCurrentDirection();
 
-		/*	//figure out the coordinates of the next move
-			int[] nextMove = configuration.getNeighborCloserToExit(currentXPos, currentYPos);;
-			int nextMoveX = nextMove[0];
-			int nextMoveY = nextMove[1];
 
-			CardinalDirection directionToMove = null;
-
-			//determines which way (cardinally) the next move is relative to the robot
-			if (nextMoveX == currentXPos + 1) {
-				directionToMove = CardinalDirection.East;
-			} else if (nextMoveX == currentXPos - 1) {
-				directionToMove = CardinalDirection.West;
-			} else if (nextMoveY == currentYPos - 1) {
-				directionToMove = CardinalDirection.North;
-			} else if (nextMoveY == currentYPos + 1) {
-				directionToMove = CardinalDirection.South;
-			}*/
 
 			//figure out the coordinates of the next move
 			int[] nextSchmove = configuration.getNeighborCloserToExit(robot.getCurrentPosition()[0], robot.getCurrentPosition()[1]);
@@ -358,12 +333,7 @@ public class Wizard implements RobotDriver {
 
 			robot.move(1, false);
 
-			//tedious determinations of which way the robot needs to turn based on which way
-			//the robot is currently facing and which way the cell it needs to go to is
-			//this.robot.determineWhichWayToTurn(currentDirection, directionToMove);
-			//once it has been determined which way the robot needs to turn (or not turn if it is already facing the
-			//right way, then we move the robot forward
-			//this.robot.move(1, false);
+
 
 			Message msg = new Message();
 			msg.arg2 = Math.round(this.robot.getBatteryLevel()) ;
@@ -371,152 +341,7 @@ public class Wizard implements RobotDriver {
 			aHandler.sendMessage(msg);
 		}
 
-		/*while (!robot.isAtExit()) {
 
-			if (robot.hasStopped()) {
-				return false;
-			}
-
-			if (paused){
-				Thread.sleep(1000);
-				continue;
-			}
-
-			CardinalDirection cd = robot.getCurrentDirection();
-
-			float batteryCopy = robot.getBatteryLevel();
-			boolean possibleToJumpToExit = true;
-			int[] currentPos = robot.getCurrentPosition();
-
-			//checks to see if wizard can jump walls until the exit without running out of battery
-			while(possibleToJumpToExit) {
-				if (robot.hasOperationalSensor(Direction.FORWARD) && robot.canSeeThroughTheExitIntoEternity(Direction.FORWARD)) {
-					while(!robot.isAtExit()) {
-						if (!configuration.hasWall(currentPos[0], currentPos[1], cd)) {
-							batteryCopy = batteryCopy - 5;
-							if(cd == CardinalDirection.North) { //north is down
-								currentPos[1]--;
-							}
-							if(cd == CardinalDirection.South) { //south is up
-								currentPos[1]++;
-							}
-							if(cd == CardinalDirection.East) { //east is right
-								currentPos[0]++;
-							}
-							if(cd == CardinalDirection.West) { //west is left
-								currentPos[0]--;
-							}
-
-							if (batteryCopy <=0) {
-								possibleToJumpToExit = false;
-							}
-						}
-
-						if (configuration.hasWall(currentPos[0], currentPos[1], cd)) {
-							batteryCopy = batteryCopy - 50;
-							if(cd == CardinalDirection.North) { //north is down
-								currentPos[1]--;
-							}
-							if(cd == CardinalDirection.South) { //south is up
-								currentPos[1]++;
-							}
-							if(cd == CardinalDirection.East) { //east is right
-								currentPos[0]++;
-							}
-							if(cd == CardinalDirection.West) { //west is left
-								currentPos[0]--;
-							}
-
-							if (batteryCopy <=0) {
-								possibleToJumpToExit = false;
-							}
-						}
-					}
-
-				}
-				break;
-			}
-
-			if(possibleToJumpToExit) {
-				if (!configuration.hasWall(currentPos[0], currentPos[1], cd)) {
-					robot.move(1, false);
-
-				}
-
-				if (configuration.hasWall(currentPos[0], currentPos[1], cd)) {
-					robot.jump();
-				}
-
-			}
-
-			else {
-				//figure out the coordinates of the next move
-				int[] nextSchmove = configuration.getNeighborCloserToExit(robot.getCurrentPosition()[0], robot.getCurrentPosition()[1]);
-
-				//figures out which direction to rotate the robot based on the spot it
-				//wants to move to
-				if (nextSchmove[0] == robot.getCurrentPosition()[0]++) {
-
-					if (cd == CardinalDirection.West) {
-						robot.rotate(Turn.AROUND);
-					}
-					if (cd == CardinalDirection.South) {
-						robot.rotate(Turn.RIGHT);
-					}
-					if (cd == CardinalDirection.North ) {
-						robot.rotate(Turn.LEFT);
-					}
-				}
-				else if (nextSchmove[0] == robot.getCurrentPosition()[0]--) {
-
-					if (cd == CardinalDirection.East) {
-						robot.rotate(Turn.AROUND);
-					}
-					if (cd == CardinalDirection.South) {
-						robot.rotate(Turn.LEFT);
-					}
-					if (cd == CardinalDirection.North) {
-						robot.rotate(Turn.RIGHT);
-					}
-
-				}
-				else if (nextSchmove[1] == robot.getCurrentPosition()[1]--) {
-
-					if (cd == CardinalDirection.East) {
-						robot.rotate(Turn.RIGHT);
-					}
-					if (cd == CardinalDirection.West) {
-						robot.rotate(Turn.LEFT);
-					}
-					if (cd == CardinalDirection.South) {
-						robot.rotate(Turn.AROUND);
-					}
-
-				}
-				else if (nextSchmove[1] == robot.getCurrentPosition()[1]++) {
-
-					if (cd == CardinalDirection.East) {
-						robot.rotate(Turn.LEFT);
-					}
-					if (cd == CardinalDirection.West) {
-						robot.rotate(Turn.RIGHT);
-					}
-					if (cd == CardinalDirection.North ) {
-						robot.rotate(Turn.AROUND);
-					}
-
-				}
-
-				robot.move(1, false);
-
-			}
-
-			Message msg = new Message();
-			msg.arg2 = Math.round(this.robot.getBatteryLevel()) ;
-
-
-			aHandler.sendMessage(msg);
-		}*/
 
 
 		//robot is now at exit
@@ -524,7 +349,6 @@ public class Wizard implements RobotDriver {
 
 		win = ((BasicRobot) robot).robotDriverAtExit((BasicRobot) robot);
 
-		//hasWon = robotDriverAtExit(robot);
 
 		Message msg = new Message();
 		if (win){
@@ -534,7 +358,7 @@ public class Wizard implements RobotDriver {
 			msg.arg1 = 0;
 		}
 
-		/* Sending the message */
+
 		aHandler.sendMessage(msg);
 		return win;
 	}
@@ -575,8 +399,6 @@ public class Wizard implements RobotDriver {
 		}
 
 	}
-	public void start(){
-		//yeet
-	}
+
 	
 }

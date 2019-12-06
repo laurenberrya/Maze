@@ -3,8 +3,10 @@ package edu.wm.cs.cs301.amazebylaurenberry;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.util.Log;
 import android.widget.TextView;
+import android.os.Vibrator;
 
 /**
  * Class: WinningActivity
@@ -26,6 +28,7 @@ public class WinningActivity extends AppCompatActivity {
     String battery;
     String bestPath;
     String pathTaken;
+    Vibrator vibrator;
 
 
     /**
@@ -42,6 +45,10 @@ public class WinningActivity extends AppCompatActivity {
         battery = intent.getStringExtra("battery");
         bestPath = intent.getStringExtra("bestPath");
         pathTaken = intent.getStringExtra("pathTaken");
+
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
+        vibrator.vibrate(200);
 
         Log.v(TAG, "battery: " +battery);
         Log.v(TAG, "bestPath: " +bestPath);

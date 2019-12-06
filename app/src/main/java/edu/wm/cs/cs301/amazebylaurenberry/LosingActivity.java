@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
+import android.os.Vibrator;
 
 /**
  * Class: LosingActivity
@@ -24,6 +25,7 @@ public class LosingActivity extends AppCompatActivity {
     String battery;
     String bestPath;
     String pathTaken;
+    Vibrator vibrator;
 
 
     /**
@@ -41,6 +43,11 @@ public class LosingActivity extends AppCompatActivity {
         bestPath = intent.getStringExtra("bestPath");
         pathTaken = intent.getStringExtra("pathTaken");
 
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
+        vibrator.vibrate(200);
+
+
         Log.v(TAG, "battery: " +battery);
         Log.v(TAG, "bestPath: " +bestPath);
         Log.v(TAG, "pathTaken: " +pathTaken);
@@ -53,6 +60,10 @@ public class LosingActivity extends AppCompatActivity {
         energyConsumption.setText(getString(R.string.energyConsumed)+" "+battery);
         shortestPath.setText(getString(R.string.shortestPossiblePathLength) + bestPath);
         actualPath.setText(getString(R.string.lengthOfYourPath)+ pathTaken);
+
+
+
+
 
     }
 

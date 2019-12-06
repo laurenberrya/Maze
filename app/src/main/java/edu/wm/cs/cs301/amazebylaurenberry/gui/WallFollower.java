@@ -1,10 +1,16 @@
 package edu.wm.cs.cs301.amazebylaurenberry.gui;
 
+import android.os.AsyncTask;
+import android.os.Message;
+
 import edu.wm.cs.cs301.amazebylaurenberry.generation.CardinalDirection;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Distance;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
+import edu.wm.cs.cs301.amazebylaurenberry.generation.StoreMaze;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.Robot.Direction;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.Robot.Turn;
+
+import static edu.wm.cs.cs301.amazebylaurenberry.PlayAnimationActivity.aHandler;
 
 /**
  * This class implements the WallFollower algorithm that operates a robot to escape from a given maze.
@@ -23,6 +29,9 @@ public class WallFollower implements RobotDriver {
 	private int width, height;
 	private float initialBattery;
 	private Maze configuration;
+
+	public boolean win;// = false;
+	plzWork plz;
 	boolean paused; //= true;
 	
 	public WallFollower() {
@@ -30,6 +39,8 @@ public class WallFollower implements RobotDriver {
 		height = 0;
 		width = 0;
 		initialBattery = 0;
+		paused = true;
+		win = false;
 	}
 	
 	
@@ -157,6 +168,77 @@ public class WallFollower implements RobotDriver {
 	 * @throws exception if robot stopped due to some problem, e.g. lack of energy
 	 */
 	public boolean drive2Exit() throws Exception {
+		//configuration = ((BasicRobot) robot).getMaze();
+		//configuration = StoreMaze.getWholeMaze();
+		//currDir = robot.getCurrentDirection();
+		plz = new plzWork();
+
+		plz.execute(100);
+
+		return true;
+	}
+
+
+	public class plzWork extends AsyncTask<Integer, Integer, String> {
+		/**
+		 * what the thread is doing,
+		 * @param params
+		 * @return
+		 */
+
+
+		@Override
+		protected String doInBackground(Integer... params) {
+
+			try {
+				go();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+
+			return "Task Completed.";
+		}
+
+		/**
+		 * once the thread/generation is finished, switch to playing screen
+		 * @param result
+		 */
+		@Override
+		protected void onPostExecute(String result) {
+
+			try {
+				Thread.sleep(50);
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		/**
+		 * nothing
+		 */
+		@Override
+		protected void onPreExecute() {
+
+			//nothing
+		}
+
+		/**
+		 * updates graphics of the progress bar in relation to the generation progress
+		 * @param values
+		 */
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			//nothing
+		}
+	}
+
+	private boolean go() throws Exception {
+
+
+
 		configuration = ((BasicRobot) robot).getMaze();
 		CardinalDirection cd = robot.getCurrentDirection();
 		
@@ -165,6 +247,10 @@ public class WallFollower implements RobotDriver {
 			
 			if (robot.hasStopped()) {
 				return false;
+			}
+			if (paused){
+				Thread.sleep(1000);
+				continue;
 			}
 	
 			boolean frontWall = configuration.hasWall(robot.getCurrentPosition()[0], robot.getCurrentPosition()[1], cd);
@@ -190,11 +276,28 @@ public class WallFollower implements RobotDriver {
 				robot.rotate(Turn.RIGHT);
 				robot.rotate(Turn.RIGHT);
 			}
+
+			Message msg = new Message();
+			msg.arg2 = Math.round(this.robot.getBatteryLevel()) ;
+
+			aHandler.sendMessage(msg);
 	
 		}
 
 		//robot now at exit position
-		return ((BasicRobot) robot).robotDriverAtExit((BasicRobot) robot);
+		win =  ((BasicRobot) robot).robotDriverAtExit((BasicRobot) robot);
+
+		Message msg = new Message();
+		if (win){
+			msg.arg1 = 1;
+		}
+		else{
+			msg.arg1 = 0;
+		}
+
+
+		aHandler.sendMessage(msg);
+		return win;
 
 	}
 	

@@ -34,4 +34,6 @@
             android:parentActivityName="edu.wm.cs.cs301.amazebylaurenberry.AMazeActivity"></activity>
     </application>
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
 </manifest>
