@@ -6,7 +6,6 @@ import android.os.Message;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.CardinalDirection;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Distance;
 import edu.wm.cs.cs301.amazebylaurenberry.generation.Maze;
-import edu.wm.cs.cs301.amazebylaurenberry.generation.StoreMaze;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.Robot.Direction;
 import edu.wm.cs.cs301.amazebylaurenberry.gui.Robot.Turn;
 
@@ -278,7 +277,7 @@ public class WallFollower implements RobotDriver {
 			}
 
 			Message msg = new Message();
-			msg.arg2 = Math.round(this.robot.getBatteryLevel()) ;
+			msg.arg2 = Math.round(robot.getBatteryLevel()) ;
 
 			aHandler.sendMessage(msg);
 	

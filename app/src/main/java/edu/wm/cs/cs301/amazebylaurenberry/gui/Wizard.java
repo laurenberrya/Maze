@@ -266,9 +266,7 @@ public class Wizard implements RobotDriver {
 				continue;
 			}
 
-			int currentXPos = robot.getCurrentPosition()[0];
-			int currentYPos = robot.getCurrentPosition()[1];
-			//currDir = robot.getCurrentDirection();
+
 
 			CardinalDirection cd = robot.getCurrentDirection();
 

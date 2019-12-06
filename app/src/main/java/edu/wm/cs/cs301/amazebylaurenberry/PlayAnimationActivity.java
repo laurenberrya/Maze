@@ -108,8 +108,8 @@ public class PlayAnimationActivity extends AppCompatActivity implements View.OnC
         if (selectedDriver.equals("Wizard")){
             driver = new Wizard();
         }
-        if (selectedDriver.equals("Wallfollower")){
-            driver = new WallFollower();
+        if (selectedDriver.equals("WallFollower")){
+            driver = new Wizard();
         }
 
 
